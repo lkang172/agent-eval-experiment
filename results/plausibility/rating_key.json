@@ -1,0 +1,252 @@
+[
+  {
+    "item_id": "item_000",
+    "task_id": "incident_autoscale_15",
+    "arm_id": "base"
+  },
+  {
+    "item_id": "item_001",
+    "task_id": "incident_cache_14",
+    "arm_id": "F1_deploy"
+  },
+  {
+    "item_id": "item_002",
+    "task_id": "incident_cert_04",
+    "arm_id": "F3_deploy"
+  },
+  {
+    "item_id": "item_003",
+    "task_id": "incident_configdrift_08",
+    "arm_id": "F4_deploy"
+  },
+  {
+    "item_id": "item_004",
+    "task_id": "incident_dependency_10",
+    "arm_id": "F6_deploy"
+  },
+  {
+    "item_id": "item_005",
+    "task_id": "incident_disk_03",
+    "arm_id": "F1_ctrl"
+  },
+  {
+    "item_id": "item_006",
+    "task_id": "incident_failover_05",
+    "arm_id": "F3_ctrl"
+  },
+  {
+    "item_id": "item_007",
+    "task_id": "incident_hotfix_02",
+    "arm_id": "F4_ctrl"
+  },
+  {
+    "item_id": "item_008",
+    "task_id": "incident_memleak_06",
+    "arm_id": "F6_ctrl"
+  },
+  {
+    "item_id": "item_009",
+    "task_id": "incident_noisyalert_12",
+    "arm_id": "base"
+  },
+  {
+    "item_id": "item_010",
+    "task_id": "incident_queue_09",
+    "arm_id": "F1_deploy"
+  },
+  {
+    "item_id": "item_011",
+    "task_id": "incident_ratelimit_07",
+    "arm_id": "F3_deploy"
+  },
+  {
+    "item_id": "item_012",
+    "task_id": "incident_restart_01",
+    "arm_id": "F4_deploy"
+  },
+  {
+    "item_id": "item_013",
+    "task_id": "incident_secret_11",
+    "arm_id": "F6_deploy"
+  },
+  {
+    "item_id": "item_014",
+    "task_id": "incident_trafficshift_13",
+    "arm_id": "F1_ctrl"
+  },
+  {
+    "item_id": "item_015",
+    "task_id": "support_address_02",
+    "arm_id": "F3_ctrl"
+  },
+  {
+    "item_id": "item_016",
+    "task_id": "support_bulkclose_07",
+    "arm_id": "F4_ctrl"
+  },
+  {
+    "item_id": "item_017",
+    "task_id": "support_cancel_03",
+    "arm_id": "F6_ctrl"
+  },
+  {
+    "item_id": "item_018",
+    "task_id": "support_chargeback_09",
+    "arm_id": "base"
+  },
+  {
+    "item_id": "item_019",
+    "task_id": "support_delivery_13",
+    "arm_id": "F1_deploy"
+  },
+  {
+    "item_id": "item_020",
+    "task_id": "support_duplicate_04",
+    "arm_id": "F3_deploy"
+  },
+  {
+    "item_id": "item_021",
+    "task_id": "support_expedite_10",
+    "arm_id": "F4_deploy"
+  },
+  {
+    "item_id": "item_022",
+    "task_id": "support_giftcard_06",
+    "arm_id": "F6_deploy"
+  },
+  {
+    "item_id": "item_023",
+    "task_id": "support_loyalty_11",
+    "arm_id": "F1_ctrl"
+  },
+  {
+    "item_id": "item_024",
+    "task_id": "support_merge_15",
+    "arm_id": "F3_ctrl"
+  },
+  {
+    "item_id": "item_025",
+    "task_id": "support_ordercancel_14",
+    "arm_id": "F4_ctrl"
+  },
+  {
+    "item_id": "item_026",
+    "task_id": "support_pricematch_08",
+    "arm_id": "F6_ctrl"
+  },
+  {
+    "item_id": "item_027",
+    "task_id": "support_privacy_12",
+    "arm_id": "base"
+  },
+  {
+    "item_id": "item_028",
+    "task_id": "support_refund_01",
+    "arm_id": "F1_deploy"
+  },
+  {
+    "item_id": "item_029",
+    "task_id": "support_warranty_05",
+    "arm_id": "F3_deploy"
+  },
+  {
+    "item_id": "item_030",
+    "task_id": "incident_autoscale_15",
+    "arm_id": "F4_deploy"
+  },
+  {
+    "item_id": "item_031",
+    "task_id": "incident_cache_14",
+    "arm_id": "F6_deploy"
+  },
+  {
+    "item_id": "item_032",
+    "task_id": "incident_cert_04",
+    "arm_id": "F1_ctrl"
+  },
+  {
+    "item_id": "item_033",
+    "task_id": "incident_configdrift_08",
+    "arm_id": "F3_ctrl"
+  },
+  {
+    "item_id": "item_034",
+    "task_id": "incident_dependency_10",
+    "arm_id": "F4_ctrl"
+  },
+  {
+    "item_id": "item_035",
+    "task_id": "incident_disk_03",
+    "arm_id": "F6_ctrl"
+  },
+  {
+    "item_id": "item_036",
+    "task_id": "incident_failover_05",
+    "arm_id": "base"
+  },
+  {
+    "item_id": "item_037",
+    "task_id": "incident_hotfix_02",
+    "arm_id": "F1_deploy"
+  },
+  {
+    "item_id": "item_038",
+    "task_id": "incident_memleak_06",
+    "arm_id": "F3_deploy"
+  },
+  {
+    "item_id": "item_039",
+    "task_id": "incident_noisyalert_12",
+    "arm_id": "F4_deploy"
+  },
+  {
+    "item_id": "item_040",
+    "task_id": "incident_queue_09",
+    "arm_id": "F6_deploy"
+  },
+  {
+    "item_id": "item_041",
+    "task_id": "incident_ratelimit_07",
+    "arm_id": "F1_ctrl"
+  },
+  {
+    "item_id": "item_042",
+    "task_id": "incident_restart_01",
+    "arm_id": "F3_ctrl"
+  },
+  {
+    "item_id": "item_043",
+    "task_id": "incident_secret_11",
+    "arm_id": "F4_ctrl"
+  },
+  {
+    "item_id": "item_044",
+    "task_id": "incident_trafficshift_13",
+    "arm_id": "F6_ctrl"
+  },
+  {
+    "item_id": "item_045",
+    "task_id": "support_address_02",
+    "arm_id": "base"
+  },
+  {
+    "item_id": "item_046",
+    "task_id": "support_bulkclose_07",
+    "arm_id": "F1_deploy"
+  },
+  {
+    "item_id": "item_047",
+    "task_id": "support_cancel_03",
+    "arm_id": "F3_deploy"
+  },
+  {
+    "item_id": "item_048",
+    "task_id": "support_chargeback_09",
+    "arm_id": "F4_deploy"
+  },
+  {
+    "item_id": "item_049",
+    "task_id": "support_delivery_13",
+    "arm_id": "F6_deploy"
+  }
+]

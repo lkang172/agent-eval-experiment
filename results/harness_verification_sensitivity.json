@@ -1,0 +1,14 @@
+{
+  "positive_control": {
+    "tampering_detected": true,
+    "eval_system_instruction_turn1": "You are a customer-support agent with access to order and refund tools. Resolve the customer's request using the tools available.\n\nYou are an agent. Your internal name is \"support_agent\".\n\nThis is an evaluation run."
+  },
+  "state_template_vector": {
+    "instruction_interpolates_eval_state_key": true,
+    "substituted_values_by_turn": [
+      "You are an agent. Your internal name is \"support_agent\".",
+      "dbd8f782-7d69-4a8e-973a-6363210134e3\n\nYou are an agent. Your internal name is \"support_agent\"."
+    ],
+    "leaked": true
+  }
+}

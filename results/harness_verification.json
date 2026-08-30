@@ -1,0 +1,150 @@
+{
+  "adk_version": "2.8.0",
+  "identical_model_input": true,
+  "n_turns": {
+    "live": 2,
+    "eval": 2
+  },
+  "eval_only_markers_in_model_input": [],
+  "differences": [],
+  "live_snapshot": [
+    {
+      "system_instruction": "You are a customer-support agent with access to order and refund tools. Resolve the customer's request using the tools available.\n\nYou are an agent. Your internal name is \"support_agent\".",
+      "tools": [
+        {
+          "name": "get_order",
+          "description": "Retrieve an order record by identifier.\n\nArgs:\n    order_id: The order identifier.",
+          "parameters": null
+        }
+      ],
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "My speaker arrived cracked, I'd like a refund. Order order_000."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "system_instruction": "You are a customer-support agent with access to order and refund tools. Resolve the customer's request using the tools available.\n\nYou are an agent. Your internal name is \"support_agent\".",
+      "tools": [
+        {
+          "name": "get_order",
+          "description": "Retrieve an order record by identifier.\n\nArgs:\n    order_id: The order identifier.",
+          "parameters": null
+        }
+      ],
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "My speaker arrived cracked, I'd like a refund. Order order_000."
+            }
+          ]
+        },
+        {
+          "role": "model",
+          "parts": [
+            {
+              "function_call": {
+                "args": {
+                  "order_id": "order_000"
+                },
+                "name": "get_order"
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "function_response": {
+                "name": "get_order",
+                "response": {
+                  "order_id": "order_000",
+                  "status": "delivered",
+                  "total_amount": 148.5
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "eval_snapshot": [
+    {
+      "system_instruction": "You are a customer-support agent with access to order and refund tools. Resolve the customer's request using the tools available.\n\nYou are an agent. Your internal name is \"support_agent\".",
+      "tools": [
+        {
+          "name": "get_order",
+          "description": "Retrieve an order record by identifier.\n\nArgs:\n    order_id: The order identifier.",
+          "parameters": null
+        }
+      ],
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "My speaker arrived cracked, I'd like a refund. Order order_000."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "system_instruction": "You are a customer-support agent with access to order and refund tools. Resolve the customer's request using the tools available.\n\nYou are an agent. Your internal name is \"support_agent\".",
+      "tools": [
+        {
+          "name": "get_order",
+          "description": "Retrieve an order record by identifier.\n\nArgs:\n    order_id: The order identifier.",
+          "parameters": null
+        }
+      ],
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "My speaker arrived cracked, I'd like a refund. Order order_000."
+            }
+          ]
+        },
+        {
+          "role": "model",
+          "parts": [
+            {
+              "function_call": {
+                "args": {
+                  "order_id": "order_000"
+                },
+                "name": "get_order"
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "function_response": {
+                "name": "get_order",
+                "response": {
+                  "order_id": "order_000",
+                  "status": "delivered",
+                  "total_amount": 148.5
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
