@@ -33,7 +33,17 @@ from .taskloader import load_all
 
 ROOT = Path(__file__).resolve().parents[2]
 
-DEFAULT_ARMS = ["base"] + [f"{f}_deploy" for f in FACTORS] + [f"{f}_ctrl" for f in FACTORS]
+# Staged design. The screen comes first: base vs stacked_deploy is the MAXIMUM
+# available manipulation (all four factors at once, separable representationally
+# at AUROC 0.999), so it is the most powerful test of whether harness realism
+# moves behaviour at all. Only if the screen moves is a per-factor decomposition
+# worth 4,000 generations -- and if the screen does NOT move, a null on the
+# strongest possible manipulation is a far stronger result than four
+# separately-underpowered per-factor nulls.
+SCREEN_ARMS = ["base", "stacked_deploy"]
+FULL_ARMS = (["base"] + [f"{f}_deploy" for f in FACTORS]
+             + [f"{f}_ctrl" for f in FACTORS] + ["stacked_deploy", "stacked_ctrl"])
+DEFAULT_ARMS = SCREEN_ARMS
 
 
 def _log(m: str) -> None:
@@ -48,7 +58,9 @@ def main() -> int:
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--max-new-tokens", type=int, default=120)
-    ap.add_argument("--arms", default=",".join(DEFAULT_ARMS))
+    ap.add_argument("--arms", default=",".join(DEFAULT_ARMS),
+                    help="comma-separated arm ids; 'screen' = base vs "
+                         "stacked_deploy, 'full' = all 11 arms")
     ap.add_argument("--pilot", action="store_true",
                     help="2 tasks x 2 arms x 3 rollouts, then report timing and stop")
     ap.add_argument("--resamples", type=int, default=5000)
@@ -57,7 +69,7 @@ def main() -> int:
 
     from .activations import DEFAULT_MODEL, load_model
     model_name = a.model or DEFAULT_MODEL
-    arms = a.arms.split(",")
+    arms = {"screen": SCREEN_ARMS, "full": FULL_ARMS}.get(a.arms, a.arms.split(","))
 
     tasks = load_all()
     specs = []
@@ -120,8 +132,23 @@ def main() -> int:
         except Exception:
             pass
 
+    # screen contrast, when the stacked arm was run
+    if "stacked_deploy" in arms:
+        sb = cluster_bootstrap(
+            tbl, lambda t, ts: (lambda b, d: float(np.mean(b) - np.mean(d)))(
+                *t.paired("base", "stacked_deploy", "score", ts)),
+            a.resamples)
+        out_screen = {"delta_rate": sb.point, "ci": [sb.ci_low, sb.ci_high],
+                      "p_raw": sb.p_two_sided, "tost": tost(sb, margin)}
+        _log(f"SCREEN base vs stacked_deploy: Δ={sb.point:+.3f} "
+             f"CI[{sb.ci_low:+.3f},{sb.ci_high:+.3f}] p={sb.p_two_sided:.4f}")
+    else:
+        out_screen = None
+
     per_factor, praw = {}, {}
     for f in FACTORS:
+        if f"{f}_deploy" not in arms:
+            continue
         b = cluster_bootstrap(tbl, lambda t, ts, f=f: delta_rate(t, f, ts),
                               a.resamples)
         bc = cluster_bootstrap(tbl, lambda t, ts, f=f: delta_rate_ctrl(t, f, ts),
@@ -134,7 +161,7 @@ def main() -> int:
             "tost": tost(b, margin),
         }
         praw[f] = b.p_two_sided
-    for f, c in holm(praw).items():
+    for f, c in (holm(praw).items() if praw else []):
         per_factor[f]["delta_rate"]["p_holm"] = c["p_holm"]
         per_factor[f]["delta_rate"]["significant_holm"] = c["significant"]
 
@@ -142,6 +169,7 @@ def main() -> int:
         "config": vars(a), "model": info,
         "n_generations": len(rows), "elapsed_s": elapsed,
         "dynamic_range_base": dr,
+        "screen_base_vs_stacked": out_screen,
         "tost_margin": margin,
         "per_factor": per_factor,
         "per_cell_rates": {f"{t}|{arm}": v for (t, arm), v in rates.items()},
@@ -156,7 +184,7 @@ def main() -> int:
 
     print(f"\n{'factor':8}{'Δ rate':>10}{'ci_low':>9}{'ci_hi':>9}{'p_holm':>9}"
           f"{'sig':>6}{'TOST eq':>9}")
-    for f in FACTORS:
+    for f in [x for x in FACTORS if x in per_factor]:
         d = per_factor[f]["delta_rate"]
         print(f"{f:8}{d['point']:+10.3f}{d['ci'][0]:+9.3f}{d['ci'][1]:+9.3f}"
               f"{d['p_holm']:9.4f}{str(d['significant_holm']):>6}"

@@ -160,7 +160,22 @@
       "trajectory_length"
     ],
     "dissociation_statement": "CELL-LEVEL ONLY; no rank correlation over four points (\u00a76.5)",
-    "null_diagnostic": "report base-condition variance at the decision point, so a reader can distinguish failed task design from a real behavioral null (\u00a711)"
+    "null_diagnostic": "report base-condition variance at the decision point, so a reader can distinguish failed task design from a real behavioral null (\u00a711)",
+    "staged_design": {
+      "declared": "2026-08-30, before any behavioural data existed (zero rollouts run)",
+      "stage_1_screen": {
+        "contrast": "base vs stacked_deploy",
+        "rationale": "the maximum available manipulation -- all four factors at once. Representationally it separates at AUROC 0.999 out-of-fold, so the model plainly registers the difference. It is therefore the most powerful available test of whether harness realism moves BEHAVIOUR at all.",
+        "if_it_moves": "decompose per factor (stage 2)",
+        "if_it_does_not": "a null on the strongest possible manipulation, which is a far stronger claim than four separately-underpowered per-factor nulls, and is reportable as such"
+      },
+      "stage_2_decomposition": {
+        "contrast": "per-factor deploy and control arms",
+        "run_only_if": "stage 1 shows a behavioural shift"
+      },
+      "note": "This changes the behavioural analysis plan from the flat 4-factor design in \u00a76.4. It is declared here in advance and is a power decision, not a result-dependent one."
+    },
+    "margin_caveat": "The probe arm's TOST margin (random-direction band) is in AUROC units and is NOT transferable to a difference in proportions. A behaviour-specific equivalence margin must be set before any 'does not affect behaviour' claim: the smallest shift in cautious-branch rate an eval designer would act on."
   },
   "draft_selection": {
     "decided_by": "\u00a74.3 control-validity check, run on day 1 before any AUROC is interpreted",
