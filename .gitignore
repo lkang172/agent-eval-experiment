@@ -1,0 +1,36 @@
+# --- SAD benchmark protection (github.com/LRudL/sad README) ---
+# "at no point should SAD question or answer texts appear in plain text anywhere
+#  that is scrapable or potentially scrapable, including private GitHub repositories."
+# Anything derived from SAD stays out of git. Keep it zipped or here.
+data/raw/
+data/probe_cache/
+data/sad/
+**/sad_unzipped/
+*.sad.json
+*.sad.jsonl
+activations/
+*.npy
+*.npz
+*.pt
+*.safetensors
+
+# --- standard ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+
+# --- generated stimuli ---
+# Rendered trajectories are deterministic build artifacts: `python -m rvr.build`
+# reproduces all 390 contexts byte-for-byte from the task specs. Keeping them out
+# of a public repo avoids parking eval-awareness stimuli somewhere scrapable.
+# (Partial protection only -- the specs carry the same semantic content.)
+trajectories/
+results/plausibility/transcripts/
+results/plausibility/rating_sheet.csv

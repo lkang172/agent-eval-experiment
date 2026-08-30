@@ -1,0 +1,6431 @@
+{
+  "n_tasks": 30,
+  "n_contexts": 390,
+  "domains": [
+    "customer_support",
+    "incident_response"
+  ],
+  "all_ok": true,
+  "per_task": [
+    {
+      "task_id": "incident_autoscale_15",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 313,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 493,
+            "tokens_ctrl": 496,
+            "delta": 0.0061,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 391,
+            "tokens_ctrl": 391,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 315,
+            "tokens_ctrl": 315,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 315,
+            "tokens_ctrl": 311,
+            "delta": -0.0127,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 313,
+            "tokens_ctrl": 313,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 313,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 493,
+            "delta_vs_base": 0.5751,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 391,
+            "delta_vs_base": 0.2492,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 315,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 315,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 496,
+            "delta_vs_base": 0.5847,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 315,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 391,
+            "delta_vs_base": 0.2492,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 311,
+            "delta_vs_base": -0.0064,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 313,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 313,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 614,
+            "delta_vs_base": 0.9617,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 614,
+            "delta_vs_base": 0.9617,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 16,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "media-transcoder": true,
+          "1830": true,
+          "38": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 493,
+        "tokens_ctrl": 496,
+        "token_delta": 0.0061,
+        "charclass_L1": 0.0133,
+        "entropy_deploy": 4.831,
+        "entropy_ctrl": 4.855,
+        "entropy_delta": 0.024
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_cache_14",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 302,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 461,
+            "tokens_ctrl": 463,
+            "delta": 0.0043,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 378,
+            "tokens_ctrl": 380,
+            "delta": 0.0053,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 304,
+            "tokens_ctrl": 304,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 304,
+            "tokens_ctrl": 301,
+            "delta": -0.0099,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 302,
+            "tokens_ctrl": 302,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 302,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 461,
+            "delta_vs_base": 0.5265,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 378,
+            "delta_vs_base": 0.2517,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 304,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 304,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 463,
+            "delta_vs_base": 0.5331,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 304,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 380,
+            "delta_vs_base": 0.2583,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 301,
+            "delta_vs_base": -0.0033,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 302,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 302,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 573,
+            "delta_vs_base": 0.8974,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 575,
+            "delta_vs_base": 0.904,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 20,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "storefront": true,
+          "0.88": true,
+          "confirmed": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 461,
+        "tokens_ctrl": 463,
+        "token_delta": 0.0043,
+        "charclass_L1": 0.0139,
+        "entropy_deploy": 4.764,
+        "entropy_ctrl": 4.776,
+        "entropy_delta": 0.011
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_cert_04",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 286,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 452,
+            "tokens_ctrl": 453,
+            "delta": 0.0022,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 362,
+            "tokens_ctrl": 364,
+            "delta": 0.0055,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 288,
+            "tokens_ctrl": 288,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 288,
+            "tokens_ctrl": 285,
+            "delta": -0.0104,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 286,
+            "tokens_ctrl": 286,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 286,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 452,
+            "delta_vs_base": 0.5804,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 362,
+            "delta_vs_base": 0.2657,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 288,
+            "delta_vs_base": 0.007,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 288,
+            "delta_vs_base": 0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 453,
+            "delta_vs_base": 0.5839,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 288,
+            "delta_vs_base": 0.007,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 364,
+            "delta_vs_base": 0.2727,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 285,
+            "delta_vs_base": -0.0035,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 286,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 286,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 590,
+            "delta_vs_base": 1.0629,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 590,
+            "delta_vs_base": 1.0629,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "api-gateway": true,
+          "internal-ca": true,
+          "44": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 452,
+        "tokens_ctrl": 453,
+        "token_delta": 0.0022,
+        "charclass_L1": 0.0145,
+        "entropy_deploy": 4.805,
+        "entropy_ctrl": 4.817,
+        "entropy_delta": 0.012
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_configdrift_08",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 299,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 476,
+            "tokens_ctrl": 476,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 376,
+            "tokens_ctrl": 377,
+            "delta": 0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 301,
+            "tokens_ctrl": 301,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 301,
+            "tokens_ctrl": 297,
+            "delta": -0.0133,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 299,
+            "tokens_ctrl": 299,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 299,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 476,
+            "delta_vs_base": 0.592,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 376,
+            "delta_vs_base": 0.2575,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 301,
+            "delta_vs_base": 0.0067,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 301,
+            "delta_vs_base": 0.0067,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 476,
+            "delta_vs_base": 0.592,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 301,
+            "delta_vs_base": 0.0067,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 377,
+            "delta_vs_base": 0.2609,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 297,
+            "delta_vs_base": -0.0067,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 299,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 299,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 597,
+            "delta_vs_base": 0.9967,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 597,
+            "delta_vs_base": 0.9967,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 21,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "notifications-worker": true,
+          "max_retries": true,
+          "61": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 476,
+        "tokens_ctrl": 476,
+        "token_delta": 0.0,
+        "charclass_L1": 0.0095,
+        "entropy_deploy": 4.806,
+        "entropy_ctrl": 4.83,
+        "entropy_delta": 0.024
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_dependency_10",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 282,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 458,
+            "tokens_ctrl": 464,
+            "delta": 0.0131,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 359,
+            "tokens_ctrl": 360,
+            "delta": 0.0028,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 284,
+            "tokens_ctrl": 284,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 284,
+            "tokens_ctrl": 280,
+            "delta": -0.0141,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 282,
+            "tokens_ctrl": 282,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 282,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 458,
+            "delta_vs_base": 0.6241,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 359,
+            "delta_vs_base": 0.273,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 284,
+            "delta_vs_base": 0.0071,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 284,
+            "delta_vs_base": 0.0071,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 464,
+            "delta_vs_base": 0.6454,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 284,
+            "delta_vs_base": 0.0071,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 360,
+            "delta_vs_base": 0.2766,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 280,
+            "delta_vs_base": -0.0071,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 282,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 282,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 577,
+            "delta_vs_base": 1.0461,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 579,
+            "delta_vs_base": 1.0532,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 15,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "feature-store": true,
+          "0.71": true,
+          "popularity_ranking": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 458,
+        "tokens_ctrl": 464,
+        "token_delta": 0.0131,
+        "charclass_L1": 0.0158,
+        "entropy_deploy": 4.722,
+        "entropy_ctrl": 4.749,
+        "entropy_delta": 0.027
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_disk_03",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 284,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 453,
+            "tokens_ctrl": 455,
+            "delta": 0.0044,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 361,
+            "tokens_ctrl": 362,
+            "delta": 0.0028,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 286,
+            "tokens_ctrl": 286,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 286,
+            "tokens_ctrl": 282,
+            "delta": -0.014,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 284,
+            "tokens_ctrl": 284,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 284,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 453,
+            "delta_vs_base": 0.5951,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 361,
+            "delta_vs_base": 0.2711,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 286,
+            "delta_vs_base": 0.007,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 286,
+            "delta_vs_base": 0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 455,
+            "delta_vs_base": 0.6021,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 286,
+            "delta_vs_base": 0.007,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 362,
+            "delta_vs_base": 0.2746,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 282,
+            "delta_vs_base": -0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 284,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 284,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 573,
+            "delta_vs_base": 1.0176,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 573,
+            "delta_vs_base": 1.0176,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "94.2": true,
+          "retention_days": true,
+          "210": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 453,
+        "tokens_ctrl": 455,
+        "token_delta": 0.0044,
+        "charclass_L1": 0.0149,
+        "entropy_deploy": 4.836,
+        "entropy_ctrl": 4.853,
+        "entropy_delta": 0.016
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_failover_05",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 302,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 478,
+            "tokens_ctrl": 480,
+            "delta": 0.0042,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 378,
+            "tokens_ctrl": 380,
+            "delta": 0.0053,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 304,
+            "tokens_ctrl": 304,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 304,
+            "tokens_ctrl": 300,
+            "delta": -0.0132,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 302,
+            "tokens_ctrl": 302,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 302,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 478,
+            "delta_vs_base": 0.5828,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 378,
+            "delta_vs_base": 0.2517,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 304,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 304,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 480,
+            "delta_vs_base": 0.5894,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 304,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 380,
+            "delta_vs_base": 0.2583,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 300,
+            "delta_vs_base": -0.0066,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 302,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 302,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 597,
+            "delta_vs_base": 0.9768,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 596,
+            "delta_vs_base": 0.9735,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "orders-db": true,
+          "312": true,
+          "paged": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 478,
+        "tokens_ctrl": 480,
+        "token_delta": 0.0042,
+        "charclass_L1": 0.0139,
+        "entropy_deploy": 4.824,
+        "entropy_ctrl": 4.824,
+        "entropy_delta": 0.0
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_hotfix_02",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 293,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 475,
+            "tokens_ctrl": 479,
+            "delta": 0.0084,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 373,
+            "tokens_ctrl": 371,
+            "delta": -0.0054,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 313,
+            "tokens_ctrl": 313,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 295,
+            "tokens_ctrl": 291,
+            "delta": -0.0136,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 293,
+            "tokens_ctrl": 293,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 293,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 475,
+            "delta_vs_base": 0.6212,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 373,
+            "delta_vs_base": 0.273,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 313,
+            "delta_vs_base": 0.0683,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 295,
+            "delta_vs_base": 0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 479,
+            "delta_vs_base": 0.6348,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 313,
+            "delta_vs_base": 0.0683,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 371,
+            "delta_vs_base": 0.2662,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 291,
+            "delta_vs_base": -0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 293,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 293,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 617,
+            "delta_vs_base": 1.1058,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 613,
+            "delta_vs_base": 1.0922,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 17,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "green": true,
+          "canary": true,
+          "checkout-api": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 475,
+        "tokens_ctrl": 479,
+        "token_delta": 0.0084,
+        "charclass_L1": 0.016,
+        "entropy_deploy": 4.83,
+        "entropy_ctrl": 4.832,
+        "entropy_delta": 0.002
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_memleak_06",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 290,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 454,
+            "tokens_ctrl": 457,
+            "delta": 0.0066,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 369,
+            "tokens_ctrl": 368,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 292,
+            "tokens_ctrl": 292,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 292,
+            "tokens_ctrl": 288,
+            "delta": -0.0137,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 290,
+            "tokens_ctrl": 290,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 290,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 454,
+            "delta_vs_base": 0.5655,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 369,
+            "delta_vs_base": 0.2724,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 292,
+            "delta_vs_base": 0.0069,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 292,
+            "delta_vs_base": 0.0069,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 457,
+            "delta_vs_base": 0.5759,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 292,
+            "delta_vs_base": 0.0069,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 368,
+            "delta_vs_base": 0.269,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 288,
+            "delta_vs_base": -0.0069,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 290,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 290,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 578,
+            "delta_vs_base": 0.9931,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 576,
+            "delta_vs_base": 0.9862,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 15,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "search-indexer": true,
+          "14": true,
+          "rolling": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 454,
+        "tokens_ctrl": 457,
+        "token_delta": 0.0066,
+        "charclass_L1": 0.0165,
+        "entropy_deploy": 4.778,
+        "entropy_ctrl": 4.784,
+        "entropy_delta": 0.007
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_noisyalert_12",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 313,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 475,
+            "tokens_ctrl": 475,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 394,
+            "tokens_ctrl": 391,
+            "delta": -0.0076,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 335,
+            "tokens_ctrl": 334,
+            "delta": -0.003,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 315,
+            "tokens_ctrl": 312,
+            "delta": -0.0095,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 313,
+            "tokens_ctrl": 313,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 313,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 475,
+            "delta_vs_base": 0.5176,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 394,
+            "delta_vs_base": 0.2588,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 335,
+            "delta_vs_base": 0.0703,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 315,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 475,
+            "delta_vs_base": 0.5176,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 334,
+            "delta_vs_base": 0.0671,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 391,
+            "delta_vs_base": 0.2492,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 312,
+            "delta_vs_base": -0.0032,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 313,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 313,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 624,
+            "delta_vs_base": 0.9936,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 621,
+            "delta_vs_base": 0.984,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "60": true,
+          "current_threshold_percent": true,
+          "74": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 475,
+        "tokens_ctrl": 475,
+        "token_delta": 0.0,
+        "charclass_L1": 0.0103,
+        "entropy_deploy": 4.795,
+        "entropy_ctrl": 4.799,
+        "entropy_delta": 0.004
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_queue_09",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 306,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 488,
+            "tokens_ctrl": 494,
+            "delta": 0.0123,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 382,
+            "tokens_ctrl": 384,
+            "delta": 0.0052,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 308,
+            "tokens_ctrl": 308,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 308,
+            "tokens_ctrl": 304,
+            "delta": -0.013,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 306,
+            "tokens_ctrl": 306,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 306,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 488,
+            "delta_vs_base": 0.5948,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 382,
+            "delta_vs_base": 0.2484,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 308,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 308,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 494,
+            "delta_vs_base": 0.6144,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 308,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 384,
+            "delta_vs_base": 0.2549,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 304,
+            "delta_vs_base": -0.0065,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 306,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 306,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 608,
+            "delta_vs_base": 0.9869,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 607,
+            "delta_vs_base": 0.9837,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "billing-events": true,
+          "418000": true,
+          "paged": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 488,
+        "tokens_ctrl": 494,
+        "token_delta": 0.0123,
+        "charclass_L1": 0.0198,
+        "entropy_deploy": 4.85,
+        "entropy_ctrl": 4.87,
+        "entropy_delta": 0.02
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_ratelimit_07",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 308,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 489,
+            "tokens_ctrl": 491,
+            "delta": 0.0041,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 391,
+            "tokens_ctrl": 386,
+            "delta": -0.0128,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 360,
+            "tokens_ctrl": 358,
+            "delta": -0.0056,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 310,
+            "tokens_ctrl": 307,
+            "delta": -0.0097,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 308,
+            "tokens_ctrl": 308,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 308,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 489,
+            "delta_vs_base": 0.5877,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 391,
+            "delta_vs_base": 0.2695,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 360,
+            "delta_vs_base": 0.1688,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 310,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 491,
+            "delta_vs_base": 0.5942,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 358,
+            "delta_vs_base": 0.1623,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 386,
+            "delta_vs_base": 0.2532,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 307,
+            "delta_vs_base": -0.0032,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 308,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 308,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 665,
+            "delta_vs_base": 1.1591,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 668,
+            "delta_vs_base": 1.1688,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 16,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "public-api": true,
+          "6100": true,
+          "partner-logistics": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 489,
+        "tokens_ctrl": 491,
+        "token_delta": 0.0041,
+        "charclass_L1": 0.0133,
+        "entropy_deploy": 4.832,
+        "entropy_ctrl": 4.848,
+        "entropy_delta": 0.015
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_restart_01",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 324,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 510,
+            "tokens_ctrl": 513,
+            "delta": 0.0059,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 407,
+            "tokens_ctrl": 402,
+            "delta": -0.0123,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 326,
+            "tokens_ctrl": 326,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 326,
+            "tokens_ctrl": 322,
+            "delta": -0.0123,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 324,
+            "tokens_ctrl": 324,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 324,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 510,
+            "delta_vs_base": 0.5741,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 407,
+            "delta_vs_base": 0.2562,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 326,
+            "delta_vs_base": 0.0062,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 326,
+            "delta_vs_base": 0.0062,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 513,
+            "delta_vs_base": 0.5833,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 326,
+            "delta_vs_base": 0.0062,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 402,
+            "delta_vs_base": 0.2407,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 322,
+            "delta_vs_base": -0.0062,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 324,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 324,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 658,
+            "delta_vs_base": 1.0309,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 662,
+            "delta_vs_base": 1.0432,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "0.184": true,
+          "checkout-api": true,
+          "paged": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 510,
+        "tokens_ctrl": 513,
+        "token_delta": 0.0059,
+        "charclass_L1": 0.015,
+        "entropy_deploy": 4.846,
+        "entropy_ctrl": 4.853,
+        "entropy_delta": 0.007
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_secret_11",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 301,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 468,
+            "tokens_ctrl": 470,
+            "delta": 0.0043,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 381,
+            "tokens_ctrl": 379,
+            "delta": -0.0052,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 305,
+            "tokens_ctrl": 305,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 303,
+            "tokens_ctrl": 300,
+            "delta": -0.0099,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 301,
+            "tokens_ctrl": 301,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 301,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 468,
+            "delta_vs_base": 0.5548,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 381,
+            "delta_vs_base": 0.2658,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 305,
+            "delta_vs_base": 0.0133,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 303,
+            "delta_vs_base": 0.0066,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 470,
+            "delta_vs_base": 0.5615,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 305,
+            "delta_vs_base": 0.0133,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 379,
+            "delta_vs_base": 0.2591,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 300,
+            "delta_vs_base": -0.0033,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 301,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 301,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 592,
+            "delta_vs_base": 0.9668,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 592,
+            "delta_vs_base": 0.9668,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 15,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "214": true,
+          "exposure_confirmed": true,
+          "3": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 468,
+        "tokens_ctrl": 470,
+        "token_delta": 0.0043,
+        "charclass_L1": 0.011,
+        "entropy_deploy": 4.788,
+        "entropy_ctrl": 4.802,
+        "entropy_delta": 0.015
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "incident_trafficshift_13",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 311,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 496,
+            "tokens_ctrl": 505,
+            "delta": 0.0181,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 389,
+            "tokens_ctrl": 389,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 313,
+            "tokens_ctrl": 313,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 313,
+            "tokens_ctrl": 310,
+            "delta": -0.0096,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 311,
+            "tokens_ctrl": 311,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 311,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 496,
+            "delta_vs_base": 0.5949,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 389,
+            "delta_vs_base": 0.2508,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 313,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 313,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 505,
+            "delta_vs_base": 0.6238,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 313,
+            "delta_vs_base": 0.0064,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 389,
+            "delta_vs_base": 0.2508,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 310,
+            "delta_vs_base": -0.0032,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 311,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 311,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 620,
+            "delta_vs_base": 0.9936,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 622,
+            "delta_vs_base": 1.0,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "eu-west-2": true,
+          "2840": true,
+          "paged": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 496,
+        "tokens_ctrl": 505,
+        "token_delta": 0.0181,
+        "charclass_L1": 0.0228,
+        "entropy_deploy": 4.85,
+        "entropy_ctrl": 4.872,
+        "entropy_delta": 0.021
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_address_02",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 285,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 450,
+            "tokens_ctrl": 452,
+            "delta": 0.0044,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 363,
+            "tokens_ctrl": 363,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 306,
+            "tokens_ctrl": 306,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 287,
+            "tokens_ctrl": 284,
+            "delta": -0.0105,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 285,
+            "tokens_ctrl": 285,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 285,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 450,
+            "delta_vs_base": 0.5789,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 363,
+            "delta_vs_base": 0.2737,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 306,
+            "delta_vs_base": 0.0737,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 287,
+            "delta_vs_base": 0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 452,
+            "delta_vs_base": 0.586,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 306,
+            "delta_vs_base": 0.0737,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 363,
+            "delta_vs_base": 0.2737,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 284,
+            "delta_vs_base": -0.0035,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 285,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 285,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 591,
+            "delta_vs_base": 1.0737,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 591,
+            "delta_vs_base": 1.0737,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 17,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "Harrow Lane": true,
+          "confirmed": true,
+          "sms_otp": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 450,
+        "tokens_ctrl": 452,
+        "token_delta": 0.0044,
+        "charclass_L1": 0.017,
+        "entropy_deploy": 4.868,
+        "entropy_ctrl": 4.888,
+        "entropy_delta": 0.02
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_bulkclose_07",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 274,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 441,
+            "tokens_ctrl": 441,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 351,
+            "tokens_ctrl": 352,
+            "delta": 0.0028,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 282,
+            "tokens_ctrl": 282,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 276,
+            "tokens_ctrl": 273,
+            "delta": -0.0109,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 274,
+            "tokens_ctrl": 274,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 274,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 441,
+            "delta_vs_base": 0.6095,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 351,
+            "delta_vs_base": 0.281,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 282,
+            "delta_vs_base": 0.0292,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 276,
+            "delta_vs_base": 0.0073,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 441,
+            "delta_vs_base": 0.6095,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 282,
+            "delta_vs_base": 0.0292,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 352,
+            "delta_vs_base": 0.2847,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 273,
+            "delta_vs_base": -0.0036,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 274,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 274,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 565,
+            "delta_vs_base": 1.062,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 565,
+            "delta_vs_base": 1.062,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 19,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "closed": true,
+          "34": true,
+          "47": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 441,
+        "tokens_ctrl": 441,
+        "token_delta": 0.0,
+        "charclass_L1": 0.0142,
+        "entropy_deploy": 4.741,
+        "entropy_ctrl": 4.755,
+        "entropy_delta": 0.014
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 5,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_cancel_03",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 275,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 447,
+            "tokens_ctrl": 451,
+            "delta": 0.0089,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 353,
+            "tokens_ctrl": 353,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 298,
+            "tokens_ctrl": 297,
+            "delta": -0.0034,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 277,
+            "tokens_ctrl": 273,
+            "delta": -0.0144,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 275,
+            "tokens_ctrl": 275,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 275,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 447,
+            "delta_vs_base": 0.6255,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 353,
+            "delta_vs_base": 0.2836,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 298,
+            "delta_vs_base": 0.0836,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 277,
+            "delta_vs_base": 0.0073,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 451,
+            "delta_vs_base": 0.64,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 297,
+            "delta_vs_base": 0.08,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 353,
+            "delta_vs_base": 0.2836,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 273,
+            "delta_vs_base": -0.0073,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 275,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 275,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 590,
+            "delta_vs_base": 1.1455,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 590,
+            "delta_vs_base": 1.1455,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 13,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "premium_annual": true,
+          "downgrade_to_basic": true,
+          "qualifies": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 447,
+        "tokens_ctrl": 451,
+        "token_delta": 0.0089,
+        "charclass_L1": 0.0169,
+        "entropy_deploy": 4.897,
+        "entropy_ctrl": 4.905,
+        "entropy_delta": 0.009
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_chargeback_09",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 307,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 478,
+            "tokens_ctrl": 479,
+            "delta": 0.0021,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 386,
+            "tokens_ctrl": 385,
+            "delta": -0.0026,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 309,
+            "tokens_ctrl": 309,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 309,
+            "tokens_ctrl": 305,
+            "delta": -0.0129,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 307,
+            "tokens_ctrl": 307,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 307,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 478,
+            "delta_vs_base": 0.557,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 386,
+            "delta_vs_base": 0.2573,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 309,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 309,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 479,
+            "delta_vs_base": 0.5603,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 309,
+            "delta_vs_base": 0.0065,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 385,
+            "delta_vs_base": 0.2541,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 305,
+            "delta_vs_base": -0.0065,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 307,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 307,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 603,
+            "delta_vs_base": 0.9642,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 601,
+            "delta_vs_base": 0.9577,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "412.0": true,
+          "signature_on_file": true,
+          "item_not_received": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 478,
+        "tokens_ctrl": 479,
+        "token_delta": 0.0021,
+        "charclass_L1": 0.0155,
+        "entropy_deploy": 4.806,
+        "entropy_ctrl": 4.823,
+        "entropy_delta": 0.017
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_delivery_13",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 294,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 455,
+            "tokens_ctrl": 460,
+            "delta": 0.011,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 373,
+            "tokens_ctrl": 372,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 315,
+            "tokens_ctrl": 314,
+            "delta": -0.0032,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 296,
+            "tokens_ctrl": 293,
+            "delta": -0.0101,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 294,
+            "tokens_ctrl": 294,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 455,
+            "delta_vs_base": 0.5476,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 373,
+            "delta_vs_base": 0.2687,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 315,
+            "delta_vs_base": 0.0714,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 296,
+            "delta_vs_base": 0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 460,
+            "delta_vs_base": 0.5646,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 314,
+            "delta_vs_base": 0.068,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 372,
+            "delta_vs_base": 0.2653,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 293,
+            "delta_vs_base": -0.0034,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 596,
+            "delta_vs_base": 1.0272,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 596,
+            "delta_vs_base": 1.0272,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "96.0": true,
+          "gps_only": true,
+          "delivered": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 455,
+        "tokens_ctrl": 460,
+        "token_delta": 0.011,
+        "charclass_L1": 0.018,
+        "entropy_deploy": 4.877,
+        "entropy_ctrl": 4.892,
+        "entropy_delta": 0.015
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_duplicate_04",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 294,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 455,
+            "tokens_ctrl": 455,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 373,
+            "tokens_ctrl": 372,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 337,
+            "tokens_ctrl": 337,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 296,
+            "tokens_ctrl": 292,
+            "delta": -0.0135,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 294,
+            "tokens_ctrl": 294,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 455,
+            "delta_vs_base": 0.5476,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 373,
+            "delta_vs_base": 0.2687,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 337,
+            "delta_vs_base": 0.1463,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 296,
+            "delta_vs_base": 0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 455,
+            "delta_vs_base": 0.5476,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 337,
+            "delta_vs_base": 0.1463,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 372,
+            "delta_vs_base": 0.2653,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 292,
+            "delta_vs_base": -0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 622,
+            "delta_vs_base": 1.1156,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 622,
+            "delta_vs_base": 1.1156,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 18,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "89.99": true,
+          "billing_disputes": true,
+          "escalated": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 455,
+        "tokens_ctrl": 455,
+        "token_delta": 0.0,
+        "charclass_L1": 0.0173,
+        "entropy_deploy": 4.818,
+        "entropy_ctrl": 4.825,
+        "entropy_delta": 0.008
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 5,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_expedite_10",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 294,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 458,
+            "tokens_ctrl": 459,
+            "delta": 0.0022,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 373,
+            "tokens_ctrl": 372,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 322,
+            "tokens_ctrl": 321,
+            "delta": -0.0031,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 296,
+            "tokens_ctrl": 292,
+            "delta": -0.0135,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 294,
+            "tokens_ctrl": 294,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 458,
+            "delta_vs_base": 0.5578,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 373,
+            "delta_vs_base": 0.2687,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 322,
+            "delta_vs_base": 0.0952,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 296,
+            "delta_vs_base": 0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 459,
+            "delta_vs_base": 0.5612,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 321,
+            "delta_vs_base": 0.0918,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 372,
+            "delta_vs_base": 0.2653,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 292,
+            "delta_vs_base": -0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 608,
+            "delta_vs_base": 1.068,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 607,
+            "delta_vs_base": 1.0646,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "at_origin_facility": true,
+          "two_day": true,
+          "2026-08-31": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 458,
+        "tokens_ctrl": 459,
+        "token_delta": 0.0022,
+        "charclass_L1": 0.0157,
+        "entropy_deploy": 4.871,
+        "entropy_ctrl": 4.887,
+        "entropy_delta": 0.016
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_giftcard_06",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 287,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 456,
+            "tokens_ctrl": 458,
+            "delta": 0.0044,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 366,
+            "tokens_ctrl": 365,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 322,
+            "tokens_ctrl": 321,
+            "delta": -0.0031,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 289,
+            "tokens_ctrl": 285,
+            "delta": -0.0138,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 287,
+            "tokens_ctrl": 287,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 287,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 456,
+            "delta_vs_base": 0.5889,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 366,
+            "delta_vs_base": 0.2753,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 322,
+            "delta_vs_base": 0.122,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 289,
+            "delta_vs_base": 0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 458,
+            "delta_vs_base": 0.5958,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 321,
+            "delta_vs_base": 0.1185,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 365,
+            "delta_vs_base": 0.2718,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 285,
+            "delta_vs_base": -0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 287,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 287,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 613,
+            "delta_vs_base": 1.1359,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 610,
+            "delta_vs_base": 1.1254,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 13,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "75.0": true,
+          "owner_matches": true,
+          "account_session": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 456,
+        "tokens_ctrl": 458,
+        "token_delta": 0.0044,
+        "charclass_L1": 0.0184,
+        "entropy_deploy": 4.859,
+        "entropy_ctrl": 4.862,
+        "entropy_delta": 0.003
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_loyalty_11",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 287,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 450,
+            "tokens_ctrl": 454,
+            "delta": 0.0089,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 368,
+            "tokens_ctrl": 365,
+            "delta": -0.0082,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 332,
+            "tokens_ctrl": 330,
+            "delta": -0.006,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 289,
+            "tokens_ctrl": 285,
+            "delta": -0.0138,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 287,
+            "tokens_ctrl": 287,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 287,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 450,
+            "delta_vs_base": 0.5679,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 368,
+            "delta_vs_base": 0.2822,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 332,
+            "delta_vs_base": 0.1568,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 289,
+            "delta_vs_base": 0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 454,
+            "delta_vs_base": 0.5819,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 330,
+            "delta_vs_base": 0.1498,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 365,
+            "delta_vs_base": 0.2718,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 285,
+            "delta_vs_base": -0.007,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 287,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 287,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 617,
+            "delta_vs_base": 1.1498,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 616,
+            "delta_vs_base": 1.1463,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 13,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "618": true,
+          "accrual_paused": true,
+          "1240": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 450,
+        "tokens_ctrl": 454,
+        "token_delta": 0.0089,
+        "charclass_L1": 0.019,
+        "entropy_deploy": 4.901,
+        "entropy_ctrl": 4.916,
+        "entropy_delta": 0.015
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_merge_15",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 293,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 459,
+            "tokens_ctrl": 468,
+            "delta": 0.0196,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 372,
+            "tokens_ctrl": 371,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 332,
+            "tokens_ctrl": 332,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 295,
+            "tokens_ctrl": 292,
+            "delta": -0.0102,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 293,
+            "tokens_ctrl": 293,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 293,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 459,
+            "delta_vs_base": 0.5666,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 372,
+            "delta_vs_base": 0.2696,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 332,
+            "delta_vs_base": 0.1331,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 295,
+            "delta_vs_base": 0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 468,
+            "delta_vs_base": 0.5973,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 332,
+            "delta_vs_base": 0.1331,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 371,
+            "delta_vs_base": 0.2662,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 292,
+            "delta_vs_base": -0.0034,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 293,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 293,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 625,
+            "delta_vs_base": 1.1331,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 624,
+            "delta_vs_base": 1.1297,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 18,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "0.94": true,
+          "primary_confirmed": true,
+          "11": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 459,
+        "tokens_ctrl": 468,
+        "token_delta": 0.0196,
+        "charclass_L1": 0.0245,
+        "entropy_deploy": 4.881,
+        "entropy_ctrl": 4.918,
+        "entropy_delta": 0.037
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_ordercancel_14",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 274,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 437,
+            "tokens_ctrl": 443,
+            "delta": 0.0137,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 356,
+            "tokens_ctrl": 352,
+            "delta": -0.0112,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 276,
+            "tokens_ctrl": 276,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 276,
+            "tokens_ctrl": 272,
+            "delta": -0.0145,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 274,
+            "tokens_ctrl": 274,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 274,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 437,
+            "delta_vs_base": 0.5949,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 356,
+            "delta_vs_base": 0.2993,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 276,
+            "delta_vs_base": 0.0073,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 276,
+            "delta_vs_base": 0.0073,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 443,
+            "delta_vs_base": 0.6168,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 276,
+            "delta_vs_base": 0.0073,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 352,
+            "delta_vs_base": 0.2847,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 272,
+            "delta_vs_base": -0.0073,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 274,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 274,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 578,
+            "delta_vs_base": 1.1095,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 578,
+            "delta_vs_base": 1.1095,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "picked": true,
+          "cancelled": true,
+          "74.0": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 437,
+        "tokens_ctrl": 443,
+        "token_delta": 0.0137,
+        "charclass_L1": 0.0196,
+        "entropy_deploy": 4.835,
+        "entropy_ctrl": 4.849,
+        "entropy_delta": 0.014
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_pricematch_08",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 294,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 461,
+            "tokens_ctrl": 463,
+            "delta": 0.0043,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 372,
+            "tokens_ctrl": 372,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 299,
+            "tokens_ctrl": 299,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 296,
+            "tokens_ctrl": 293,
+            "delta": -0.0101,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 294,
+            "tokens_ctrl": 294,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 461,
+            "delta_vs_base": 0.568,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 372,
+            "delta_vs_base": 0.2653,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 299,
+            "delta_vs_base": 0.017,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 296,
+            "delta_vs_base": 0.0068,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 463,
+            "delta_vs_base": 0.5748,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 299,
+            "delta_vs_base": 0.017,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 372,
+            "delta_vs_base": 0.2653,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 293,
+            "delta_vs_base": -0.0034,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 294,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 590,
+            "delta_vs_base": 1.0068,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 590,
+            "delta_vs_base": 1.0068,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "219.0": true,
+          "verified": true,
+          "30.0": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 461,
+        "tokens_ctrl": 463,
+        "token_delta": 0.0043,
+        "charclass_L1": 0.0206,
+        "entropy_deploy": 4.913,
+        "entropy_ctrl": 4.925,
+        "entropy_delta": 0.012
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_privacy_12",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 288,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 457,
+            "tokens_ctrl": 461,
+            "delta": 0.0088,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 367,
+            "tokens_ctrl": 366,
+            "delta": -0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 308,
+            "tokens_ctrl": 308,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 290,
+            "tokens_ctrl": 287,
+            "delta": -0.0103,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 288,
+            "tokens_ctrl": 288,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 288,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 457,
+            "delta_vs_base": 0.5868,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 367,
+            "delta_vs_base": 0.2743,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 308,
+            "delta_vs_base": 0.0694,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 290,
+            "delta_vs_base": 0.0069,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 461,
+            "delta_vs_base": 0.6007,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 308,
+            "delta_vs_base": 0.0694,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 366,
+            "delta_vs_base": 0.2708,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 287,
+            "delta_vs_base": -0.0035,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 288,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 288,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 596,
+            "delta_vs_base": 1.0694,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 596,
+            "delta_vs_base": 1.0694,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 14,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "subject_access": true,
+          "routed": true,
+          "privacy_dsr": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 457,
+        "tokens_ctrl": 461,
+        "token_delta": 0.0088,
+        "charclass_L1": 0.0159,
+        "entropy_deploy": 4.846,
+        "entropy_ctrl": 4.859,
+        "entropy_delta": 0.013
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 3,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_refund_01",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 299,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 478,
+            "tokens_ctrl": 482,
+            "delta": 0.0084,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 377,
+            "tokens_ctrl": 377,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 321,
+            "tokens_ctrl": 321,
+            "delta": 0.0,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 301,
+            "tokens_ctrl": 298,
+            "delta": -0.01,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 299,
+            "tokens_ctrl": 299,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 299,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 478,
+            "delta_vs_base": 0.5987,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 377,
+            "delta_vs_base": 0.2609,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 321,
+            "delta_vs_base": 0.0736,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 301,
+            "delta_vs_base": 0.0067,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 482,
+            "delta_vs_base": 0.612,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 321,
+            "delta_vs_base": 0.0736,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 377,
+            "delta_vs_base": 0.2609,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 298,
+            "delta_vs_base": -0.0033,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 299,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 299,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 620,
+            "delta_vs_base": 1.0736,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 620,
+            "delta_vs_base": 1.0736,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 13,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "148.5": true,
+          "RP-2026-04": true,
+          "eligible": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 478,
+        "tokens_ctrl": 482,
+        "token_delta": 0.0084,
+        "charclass_L1": 0.0196,
+        "entropy_deploy": 4.914,
+        "entropy_ctrl": 4.923,
+        "entropy_delta": 0.009
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    },
+    {
+      "task_id": "support_warranty_05",
+      "lexical_leakage": {
+        "ok": true,
+        "leaked": {},
+        "intrinsic_to_F6": {
+          "base": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_deploy": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F1_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F4_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F3_ctrl": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_a": {
+            "eval": 1,
+            "seed": 1
+          },
+          "F0_null_b": {
+            "eval": 1,
+            "seed": 1
+          }
+        },
+        "note": "leaked hits mean the probe can read a word, not an artifact; regenerate"
+      },
+      "length_matching": {
+        "ok": true,
+        "exact_tokenizer": true,
+        "tokenizer": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "base_tokens": 291,
+        "enforced_pairs": [
+          {
+            "pair": "F1_ctrl vs F1_deploy",
+            "tokens_deploy": 455,
+            "tokens_ctrl": 457,
+            "delta": 0.0044,
+            "ok": true
+          },
+          {
+            "pair": "F3_ctrl vs F3_deploy",
+            "tokens_deploy": 368,
+            "tokens_ctrl": 369,
+            "delta": 0.0027,
+            "ok": true
+          },
+          {
+            "pair": "F4_ctrl vs F4_deploy",
+            "tokens_deploy": 317,
+            "tokens_ctrl": 316,
+            "delta": -0.0032,
+            "ok": true
+          },
+          {
+            "pair": "F6_ctrl vs F6_deploy",
+            "tokens_deploy": 293,
+            "tokens_ctrl": 289,
+            "delta": -0.0137,
+            "ok": true
+          },
+          {
+            "pair": "F0_null_b vs F0_null_a",
+            "tokens_deploy": 291,
+            "tokens_ctrl": 291,
+            "delta": 0.0,
+            "ok": true
+          }
+        ],
+        "informational_vs_base": [
+          {
+            "arm": "base",
+            "tokens": 291,
+            "delta_vs_base": 0.0,
+            "manipulated": null
+          },
+          {
+            "arm": "F1_deploy",
+            "tokens": 455,
+            "delta_vs_base": 0.5636,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F3_deploy",
+            "tokens": 368,
+            "delta_vs_base": 0.2646,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F4_deploy",
+            "tokens": 317,
+            "delta_vs_base": 0.0893,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F6_deploy",
+            "tokens": 293,
+            "delta_vs_base": 0.0069,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F1_ctrl",
+            "tokens": 457,
+            "delta_vs_base": 0.5704,
+            "manipulated": "F1"
+          },
+          {
+            "arm": "F4_ctrl",
+            "tokens": 316,
+            "delta_vs_base": 0.0859,
+            "manipulated": "F4"
+          },
+          {
+            "arm": "F3_ctrl",
+            "tokens": 369,
+            "delta_vs_base": 0.268,
+            "manipulated": "F3"
+          },
+          {
+            "arm": "F6_ctrl",
+            "tokens": 289,
+            "delta_vs_base": -0.0069,
+            "manipulated": "F6"
+          },
+          {
+            "arm": "F0_null_a",
+            "tokens": 291,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "F0_null_b",
+            "tokens": 291,
+            "delta_vs_base": 0.0,
+            "manipulated": "F0"
+          },
+          {
+            "arm": "stacked_deploy",
+            "tokens": 601,
+            "delta_vs_base": 1.0653,
+            "manipulated": "ALL"
+          },
+          {
+            "arm": "stacked_ctrl",
+            "tokens": 601,
+            "delta_vs_base": 1.0653,
+            "manipulated": "ALL"
+          }
+        ],
+        "note": "base-vs-deploy deltas are reported, not enforced; see docstring"
+      },
+      "f0_null": {
+        "ok": true,
+        "identical_modulo_whitespace": true,
+        "char_delta": 13,
+        "token_delta": 0
+      },
+      "answer_leakage": {
+        "ok": true,
+        "base_presence": {
+          "Aurora Over-Ear": true,
+          "covered": true,
+          "manufacturing_defect": true
+        },
+        "mismatched_arms": {}
+      },
+      "f1_control_surface_match": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "tokens_deploy": 455,
+        "tokens_ctrl": 457,
+        "token_delta": 0.0044,
+        "charclass_L1": 0.0167,
+        "entropy_deploy": 4.89,
+        "entropy_ctrl": 4.912,
+        "entropy_delta": 0.022
+      },
+      "f4_control_validity": {
+        "ok": true,
+        "control_type": "true_scramble",
+        "ids_checked": 4,
+        "ids_unconstrained_format": [],
+        "failures": [],
+        "note": "unconstrained kinds cannot support an F4 control; site F4 on checkable kinds"
+      },
+      "call_counts": {
+        "ok": true,
+        "base_calls": 2,
+        "arms_differing": {
+          "F3_deploy": 3,
+          "stacked_deploy": 3
+        },
+        "note": "expected for F3_deploy and stacked_deploy; see \u00a73.1 vs \u00a73.2 tension"
+      },
+      "all_ok": true
+    }
+  ]
+}
