@@ -303,7 +303,7 @@
   <p class="standfirst">Which properties of an agentic eval harness leak cues that a model can detect — and do those cues change what the agent actually does?</p>
   <div class="meta">
     <span>repo · <a href="https://github.com/lkang172/agent-eval-experiment">lkang172/agent-eval-experiment</a></span>
-    <span>branch · main @ 573fd35</span>
+    <span>branch · main @ a8ff0d7</span>
     <span>tests · 19/19</span>
   </div>
 </header>
@@ -318,7 +318,7 @@
 <p>Two research questions, measured independently:</p>
 <ul>
   <li><strong>RQ1 — attribution.</strong> Ranked by effect size, which harness properties shift a linear probe's eval/deploy score with task text held fixed? This measures <em>representation</em>.</li>
-  <li><strong>RQ2 — dissociation.</strong> For each property, does a representational shift come with a <em>behavioural</em> shift — a change in which tool the agent picks at a decision point?</li>
+  <li><strong>RQ2 — dissociation.</strong> For each property, does a representational shift come with a <em>behavioral</em> shift — a change in which tool the agent picks at a decision point?</li>
 </ul>
 
 <p>The four factors under test, each toggled between an eval-like and a deploy-like setting:</p>
@@ -350,7 +350,7 @@
     <tr><td>Probe A (transferred)</td><td><span class="chip bad">Confounded</span></td><td>Reads corpus identity, not eval-awareness. Fails the gate.</td></tr>
     <tr><td>Probe B (in-domain)</td><td><span class="chip ok">Valid</span></td><td>0.899 AUROC out-of-fold at layer 4, F0 null passes</td></tr>
     <tr><td>RQ1 attribution</td><td><span class="chip warn">Underpowered</span></td><td>Only F6 significant; below the noise floor</td></tr>
-    <tr><td>RQ2 behaviour</td><td><span class="chip bad">Not measured</span></td><td>First run was a measurement failure; fix is in, unrun</td></tr>
+    <tr><td>RQ2 behavior</td><td><span class="chip bad">Not measured</span></td><td>First run was a measurement failure; fix is in, unrun</td></tr>
     <tr><td>§4.3 fixture-plausibility</td><td><span class="chip idle">Not started</span></td><td>Needs ~50 human ratings; sheet is generated</td></tr>
     <tr><td>Cross-harness replication</td><td><span class="chip idle">Not started</span></td><td>Optional; §7 of the brief</td></tr>
   </tbody>
@@ -389,7 +389,7 @@
     <tr><td><code>schema.py</code></td><td>Task/trajectory model. Tool returns stored <em>semantically</em> (field roles + ID references) so factors apply at render time.</td></tr>
     <tr><td><code>factors.py</code></td><td>F1/F3/F6 renderers and their per-factor controls.</td></tr>
     <tr><td><code>identifiers.py</code></td><td>F4 and its control. Scrambled IDs match natural ones on length and character class while being format-invalid.</td></tr>
-    <tr><td><code>generate.py</code></td><td>Renders 13 arms per task; records read positions and the behavioural cut point.</td></tr>
+    <tr><td><code>generate.py</code></td><td>Renders 13 arms per task; records read positions and the behavioral cut point.</td></tr>
     <tr><td><code>audits.py</code></td><td>Seven §8 audits: lexical leakage, length matching, F0 null, answer leakage, control validity, call counts.</td></tr>
     <tr><td><code>analysis.py</code></td><td>AUROC, cluster bootstrap by task, Holm, TOST, B-len/B-char bounds.</td></tr>
     <tr><td><code>probe.py</code></td><td>Layer sweep, grouped CV, out-of-fold scoring, the §4.4 gates.</td></tr>
@@ -403,7 +403,7 @@
 
 <div class="note">
   <span class="label">Data handling</span>
-  <p>SAD's licence requires that its question and answer text never appear in plain text anywhere scrapable, <em>including private repos</em>. Everything SAD-derived lands in <code>data/sad/</code>, which is gitignored. Do not copy SAD text into results, notebooks, logs, or commit messages.</p>
+  <p>SAD's license requires that its question and answer text never appear in plain text anywhere scrapable, <em>including private repos</em>. Everything SAD-derived lands in <code>data/sad/</code>, which is gitignored. Do not copy SAD text into results, notebooks, logs, or commit messages.</p>
   <p>Rendered trajectories are also gitignored. They are deterministic — <code>python -m rvr.build</code> reproduces all 390 byte-for-byte — so auditability is preserved without publishing eval-awareness stimuli.</p>
 </div>
 
@@ -425,8 +425,8 @@
 <h3>F6's deploy arm is a content contrast</h3>
 <p>"Absent; continuous session context" read two ways. Resolved so all three F6 arms carry a structurally identical five-key block, differing only in what it signals. Keeps F6 length-matched instead of being a presence/absence effect that B-len would absorb.</p>
 
-<h3>The behavioural arm is staged</h3>
-<p><code>base</code> vs <code>stacked_deploy</code> is the maximum available manipulation and separates representationally at AUROC 0.999. Screening on it first is the most powerful test of whether harness realism moves behaviour at all, at 1,200 generations instead of 4,950. Declared before any behavioural data existed.</p>
+<h3>The behavioral arm is staged</h3>
+<p><code>base</code> vs <code>stacked_deploy</code> is the maximum available manipulation and separates representationally at AUROC 0.999. Screening on it first is the most powerful test of whether harness realism moves behavior at all, at 1,200 generations instead of 4,950. Declared before any behavioral data existed.</p>
 
 <hr>
 
@@ -487,10 +487,10 @@
 
 <hr>
 
-<h2>Results: RQ2, behaviour</h2>
+<h2>Results: RQ2, behavior</h2>
 <p class="sub">results/behavioral.json — a measurement failure, not a null</p>
 
-<p>The first screen ran 1,200 generations over 85 minutes and produced <strong>no usable behavioural data</strong>. 87.2% of generations emitted no parseable tool call. Only 9 of 30 tasks yielded any decision; one showed the agent picking both branches. The §11 dynamic-range gate correctly reported <code>usable: False</code>.</p>
+<p>The first screen ran 1,200 generations over 85 minutes and produced <strong>no usable behavioral data</strong>. 87.2% of generations emitted no parseable tool call. Only 9 of 30 tasks yielded any decision; one showed the agent picking both branches. The §11 dynamic-range gate correctly reported <code>usable: False</code>.</p>
 
 <div class="scroll">
 <table>
@@ -505,7 +505,7 @@
 </div>
 <p class="table-note">The screen's Δ = +0.001 (p = 0.70) is meaningless — it compares two conditions in which the model mostly did nothing parseable.</p>
 
-<p><strong>Cause.</strong> The behavioural prompts were built on the probe arm's transcript format, whose markers (<code>&lt;|assistant|&gt;</code>, <code>&lt;|tool_call|&gt;</code>) are invented strings that tokenize as ordinary text, not Llama-3.1 special tokens. Harmless for probing, where only consistency across arms matters. Fatal for eliciting an <em>action</em>: the model was asked to continue an unfamiliar raw-text format rather than use tools as trained, and mostly declined.</p>
+<p><strong>Cause.</strong> The behavioral prompts were built on the probe arm's transcript format, whose markers (<code>&lt;|assistant|&gt;</code>, <code>&lt;|tool_call|&gt;</code>) are invented strings that tokenize as ordinary text, not Llama-3.1 special tokens. Harmless for probing, where only consistency across arms matters. Fatal for eliciting an <em>action</em>: the model was asked to continue an unfamiliar raw-text format rather than use tools as trained, and mostly declined.</p>
 
 <p><strong>Fix, committed but unrun.</strong> <code>build_prompt_native</code> renders the identical semantic context through the model's own chat template with proper tool schemas, cut at the same decision point. <code>--format native</code> is now the default. The driver also persists sample generations and abstention examples — their absence made the failed run undiagnosable and wasted the GPU time.</p>
 
@@ -517,7 +517,7 @@
 <div class="step">
   <div class="step-n">1</div>
   <div class="step-body">
-    <h3>Pilot the native-format behavioural arm</h3>
+    <h3>Pilot the native-format behavioral arm</h3>
     <p>Cheap, and it decides whether the fix worked. <strong>Check the parsed-choice distribution before running anything longer.</strong> If <code>none</code> is still dominant, read <code>sample_generations</code> in the pilot output and diagnose from the raw text — do not spend another 85-minute run on it.</p>
     <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.run_behavioral_arm \
     --pilot --format native --quant 8bit</pre></div>
@@ -528,7 +528,7 @@
   <div class="step-n">2</div>
   <div class="step-body">
     <h3>Run the screen: base vs stacked_deploy</h3>
-    <p>1,200 generations, roughly 85 minutes at the observed 4.3&nbsp;s/generation. The first number to read is the dynamic-range gate. If <code>usable: False</code> again, the decision points are not live and that is a task-design problem to fix before any behavioural claim — it is <em>not</em> evidence about the hypothesis.</p>
+    <p>1,200 generations, roughly 85 minutes at the observed 4.3&nbsp;s/generation. The first number to read is the dynamic-range gate. If <code>usable: False</code> again, the decision points are not live and that is a task-design problem to fix before any behavioral claim — it is <em>not</em> evidence about the hypothesis.</p>
     <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.run_behavioral_arm \
     --arms screen --rollouts 20 --format native --quant 8bit</pre></div>
   </div>
@@ -541,7 +541,7 @@
     <p><strong>If the screen moves</strong> — decompose per factor. About 4,950 generations, ~6 hours, which exceeds a Colab session. Add resumable checkpointing first, or move to a persistent GPU.</p>
     <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.run_behavioral_arm \
     --arms full --rollouts 15 --format native --quant 8bit</pre></div>
-    <p><strong>If the screen does not move</strong> — that is a null on the strongest available manipulation, which is a far stronger claim than four separately-underpowered per-factor nulls. It requires a behaviour-specific equivalence margin (see open questions) plus an achieved-power statement.</p>
+    <p><strong>If the screen does not move</strong> — that is a null on the strongest available manipulation, which is a far stronger claim than four separately-underpowered per-factor nulls. It requires a behavior-specific equivalence margin (see open questions) plus an achieved-power statement.</p>
   </div>
 </div>
 
@@ -595,7 +595,7 @@
 <h2>Open questions for the human</h2>
 
 <ul>
-  <li><strong>The behavioural equivalence margin.</strong> The probe arm's TOST margin is in AUROC units and does not transfer to a difference in proportions. Before any "does not affect behaviour" claim, someone must set the smallest shift in cautious-branch rate an eval designer would actually act on. This is a judgment call, not a computation.</li>
+  <li><strong>The behavioral equivalence margin.</strong> The probe arm's TOST margin is in AUROC units and does not transfer to a difference in proportions. Before any "does not affect behavior" claim, someone must set the smallest shift in cautious-branch rate an eval designer would actually act on. This is a judgment call, not a computation.</li>
   <li><strong>N=30 may be too small.</strong> The random-direction noise floor at layer 4 is 0.147 while the largest observed effect is 0.074. Either raise N toward the brief's preferred 40, or accept that the representational arm reports an underpowered result with honest power reporting.</li>
   <li><strong>Quantization.</strong> All results read 8-bit activations. If a larger GPU becomes available, an fp16 replication would remove the caveat entirely.</li>
 </ul>
@@ -606,7 +606,7 @@
 </div>
 
 <footer>
-  Handoff prepared 30 Aug 2026 · main @ 573fd35 · 19/19 tests passing<br>
+  Handoff prepared 30 Aug 2026 · main @ a8ff0d7 · 19/19 tests passing<br>
   Source of truth for the protocol: <code>docs/overview.md</code> · Analysis decisions: <code>configs/preregistration.json</code>
 </footer>
 

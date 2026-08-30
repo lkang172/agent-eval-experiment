@@ -22,9 +22,9 @@ Two research questions, measured **independently**:
 - **RQ1 (attribution)** — which harness properties shift a linear probe's
   eval/deploy score with task text held fixed? Measures *representation*.
 - **RQ2 (dissociation)** — does a representational shift come with a
-  *behavioural* shift: which tool the agent picks at a decision point?
+  *behavioral* shift: which tool the agent picks at a decision point?
 
-RQ2 does not depend on RQ1. A broken probe does not block it, and a behavioural
+RQ2 does not depend on RQ1. A broken probe does not block it, and a behavioral
 result stands alone.
 
 ### The four factors
@@ -47,7 +47,7 @@ result stands alone.
 | Probe A (transferred) | **Confounded** | Reads corpus identity, not eval-awareness. Fails the gate. |
 | Probe B (in-domain) | **Valid** | 0.899 AUROC out-of-fold at layer 4; F0 null passes |
 | RQ1 attribution | **Underpowered** | Only F6 significant, and below the noise floor |
-| RQ2 behaviour | **Not measured** | First run was a measurement failure; fix committed, unrun |
+| RQ2 behavior | **Not measured** | First run was a measurement failure; fix committed, unrun |
 | §4.3 fixture-plausibility | **Not started** | Needs ~50 human ratings; sheet generator exists |
 | Cross-harness replication | **Not started** | Optional |
 
@@ -90,7 +90,7 @@ Local CPU work (analysis, layer selection, audits) needs only
 | `schema.py` | Task/trajectory model. Tool returns stored *semantically* (field roles + ID references) so factors apply at render time. |
 | `factors.py` | F1/F3/F6 renderers and their per-factor controls. |
 | `identifiers.py` | F4 and its control. Scrambled IDs match natural ones on length and character class while being format-invalid. |
-| `generate.py` | Renders 13 arms per task; records read positions and the behavioural cut point. |
+| `generate.py` | Renders 13 arms per task; records read positions and the behavioral cut point. |
 | `audits.py` | Seven §8 audits: lexical leakage, length matching, F0 null, answer leakage, control validity, call counts. |
 | `analysis.py` | AUROC, cluster bootstrap by task, Holm, TOST, B-len/B-char bounds. |
 | `probe.py` | Layer sweep, grouped CV, out-of-fold scoring, the §4.4 gates. |
@@ -101,7 +101,7 @@ Local CPU work (analysis, layer selection, audits) needs only
 
 ### Data handling
 
-SAD's licence requires its question and answer text never appear in plain text
+SAD's license requires its question and answer text never appear in plain text
 anywhere scrapable, **including private repos**. Everything SAD-derived lands in
 `data/sad/`, gitignored. Do not copy SAD text into results, notebooks, logs, or
 commit messages.
@@ -138,10 +138,10 @@ reference points only.
 read two ways. All three F6 arms now carry a structurally identical five-key
 block differing only in what it signals, which keeps F6 length-matched.
 
-**The behavioural arm is staged.** `base` vs `stacked_deploy` is the maximum
+**The behavioral arm is staged.** `base` vs `stacked_deploy` is the maximum
 available manipulation (separates representationally at AUROC 0.999), so it is
 screened first — 1,200 generations instead of 4,950. Declared before any
-behavioural data existed.
+behavioral data existed.
 
 ---
 
@@ -211,12 +211,12 @@ but F6's contrast is less clean than the others'.
 
 ---
 
-## 7. Results: RQ2, behaviour — a measurement failure
+## 7. Results: RQ2, behavior — a measurement failure
 
 File: `results/behavioral.json`.
 
 The first screen ran 1,200 generations over 85 minutes and produced **no usable
-behavioural data**. 87.2% emitted no parseable tool call. Only 9 of 30 tasks
+behavioral data**. 87.2% emitted no parseable tool call. Only 9 of 30 tasks
 yielded any decision; one showed the agent picking both branches. The §11
 dynamic-range gate correctly reported `usable: False`.
 
@@ -230,7 +230,7 @@ dynamic-range gate correctly reported `usable: False`.
 The screen's Δ = +0.001 (p = 0.70) is meaningless — it compares two conditions
 in which the model mostly did nothing parseable.
 
-**Cause.** The behavioural prompts were built on the probe arm's transcript
+**Cause.** The behavioral prompts were built on the probe arm's transcript
 format, whose markers (`<|assistant|>`, `<|tool_call|>`) are invented strings
 that tokenize as ordinary text, not Llama-3.1 special tokens. Harmless for
 probing, where only consistency across arms matters. Fatal for eliciting an
@@ -245,7 +245,7 @@ also persists sample generations and abstention examples.
 
 ## 8. Next steps
 
-### Step 1 — Pilot the native-format behavioural arm
+### Step 1 — Pilot the native-format behavioral arm
 
 Cheap, and it decides whether the fix worked. **Check the parsed-choice
 distribution before running anything longer.** If `none` is still dominant, read
@@ -278,7 +278,7 @@ persistent GPU.
 
 **If it does not move** — a null on the strongest available manipulation, far
 stronger than four separately-underpowered per-factor nulls. Requires a
-behaviour-specific equivalence margin (§10) plus an achieved-power statement.
+behavior-specific equivalence margin (§10) plus an achieved-power statement.
 
 ### Step 4 — Run the §4.3 control-validity check
 
@@ -351,9 +351,9 @@ Each was a real bug; regression tests now pin them.
 
 ## 10. Open questions for the human
 
-- **The behavioural equivalence margin.** The probe arm's TOST margin is in AUROC
+- **The behavioral equivalence margin.** The probe arm's TOST margin is in AUROC
   units and does not transfer to a difference in proportions. Before any "does
-  not affect behaviour" claim, someone must set the smallest shift in
+  not affect behavior" claim, someone must set the smallest shift in
   cautious-branch rate an eval designer would act on. A judgment call, not a
   computation.
 - **N=30 may be too small.** The noise floor at layer 4 is 0.147 while the largest

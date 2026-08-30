@@ -1,4 +1,4 @@
-"""RQ2 behavioural arm (§6).
+"""RQ2 behavioral arm (§6).
 
     python -m rvr.run_behavioral_arm --pilot          # time it first
     python -m rvr.run_behavioral_arm --rollouts 15    # the real run
@@ -27,8 +27,8 @@ import numpy as np
 from . import analysis
 from .analysis import FACTORS, cluster_bootstrap, holm, tost
 from .behavioral import (build_prompt, build_prompt_native, choice_rates,
-                         delta_rate, delta_rate_ctrl, dynamic_range, rate_table,
-                         sample_rollouts)
+                         delta_rate, delta_rate_ctrl, dynamic_range,
+                         ensure_tool_template, rate_table, sample_rollouts)
 from .generate import render_all
 from .taskloader import load_all
 
@@ -37,7 +37,7 @@ ROOT = Path(__file__).resolve().parents[2]
 # Staged design. The screen comes first: base vs stacked_deploy is the MAXIMUM
 # available manipulation (all four factors at once, separable representationally
 # at AUROC 0.999), so it is the most powerful test of whether harness realism
-# moves behaviour at all. Only if the screen moves is a per-factor decomposition
+# moves behavior at all. Only if the screen moves is a per-factor decomposition
 # worth 4,000 generations -- and if the screen does NOT move, a null on the
 # strongest possible manipulation is a far stronger result than four
 # separately-underpowered per-factor nulls.
@@ -80,6 +80,13 @@ def main() -> int:
     _log(f"loading {model_name} ({a.quant})")
     model, tok, info = load_model(model_name, a.quant)
 
+    template_source = None
+    if a.format == "native":
+        # the NousResearch mirror's own template cannot render tools; swap in
+        # the vendored official Llama-3.1 template when needed
+        template_source = ensure_tool_template(tok)
+        _log(f"chat template: {template_source}")
+
     tasks = load_all()
     specs = []
     for t in tasks:
@@ -120,12 +127,14 @@ def main() -> int:
             _log("WARNING: many rollouts did not call a declared tool. Inspect "
                  "results['sample_generations'] before committing to a full run.")
         Path(a.out).with_suffix(".pilot.json").write_text(json.dumps(
-            {"model": info, "elapsed_s": elapsed, "per_generation_s": per_gen,
+            {"model": info, "prompt_format": a.format,
+             "chat_template_source": template_source,
+             "elapsed_s": elapsed, "per_generation_s": per_gen,
              "estimated_full_run_min": full * per_gen / 60, "choice_counts": counts,
              "sample_generations": [r["text"] for r in rows[:6]]}, indent=2))
         return 0
 
-    # ---- summarise -------------------------------------------------------
+    # ---- summarize -------------------------------------------------------
     rates = choice_rates(rows)
     dr = dynamic_range(rates)
     _log(f"dynamic range on base: mean cautious rate {dr['mean_cautious_rate']:.3f}, "
@@ -175,6 +184,7 @@ def main() -> int:
 
     out = {
         "config": vars(a), "model": info, "prompt_format": a.format,
+        "chat_template_source": template_source,
         "n_generations": len(rows), "elapsed_s": elapsed,
         "dynamic_range_base": dr,
         "screen_base_vs_stacked": out_screen,

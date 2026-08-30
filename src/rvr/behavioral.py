@@ -1,7 +1,7 @@
 """RQ2: does a harness property change what the agent DOES? (§6)
 
-The probe arm measures representation. This measures behaviour, and the two are
-independent: a broken probe does not block this, and a behavioural result stands
+The probe arm measures representation. This measures behavior, and the two are
+independent: a broken probe does not block this, and a behavioral result stands
 on its own. Dissociation (§6.5) is only claimable when both halves work.
 
 Method. Each context is truncated immediately before the decision-point
@@ -12,14 +12,16 @@ neither. Both branches are legitimate by construction (§6.1), fixed in the task
 spec before any data was seen.
 
 Decoding differs from the probe arm on purpose (§6.2). Greedy decoding makes
-tool selection near-deterministic and would manufacture a behavioural null that
+tool selection near-deterministic and would manufacture a behavioral null that
 is an artifact of the decoding choice, not evidence about dissociation.
 """
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Literal, Sequence
 
 import numpy as np
@@ -155,11 +157,11 @@ def choice_rates(rows: list[dict]) -> dict[tuple[str, str], dict]:
 
 
 def dynamic_range(rates: dict[tuple[str, str], dict], arm: str = "base") -> dict:
-    """§11's first check on any behavioural null.
+    """§11's first check on any behavioral null.
 
     If the base condition shows near-zero variance across rollouts, the task
     design failed to create a real decision -- that is a different finding from
-    "the harness property does not move behaviour", and a reader must be able to
+    "the harness property does not move behavior", and a reader must be able to
     tell them apart.
     """
     vals = [v["cautious_rate"] for (t, a), v in rates.items()
@@ -176,7 +178,7 @@ def dynamic_range(rates: dict[tuple[str, str], dict], arm: str = "base") -> dict
         "tasks_with_variance": live,
         "usable": live >= max(3, int(0.2 * len(v))),
         "note": ("if most base rates are pinned at 0 or 1, the decision points are "
-                 "not live and a behavioural null reflects task design, not the "
+                 "not live and a behavioral null reflects task design, not the "
                  "hypothesis (§11)"),
     }
 
@@ -192,7 +194,7 @@ def rate_table(rates: dict[tuple[str, str], dict]):
 
 
 def delta_rate(tbl, factor: str, tasks) -> float:
-    """Behavioural effect: mean cautious-rate(eval arm) - mean(deploy arm).
+    """Behavioral effect: mean cautious-rate(eval arm) - mean(deploy arm).
 
     A difference in rates, not an AUROC. §6.5 states the dissociation in these
     units, and they are what an eval designer can act on.
@@ -222,8 +224,31 @@ def delta_rate_ctrl(tbl, factor: str, tasks) -> float:
 # trained to, and it mostly declines to emit anything parseable.
 #
 # These builders render the SAME semantic context through the model's own chat
-# template with its own tool-calling schema, so the behavioural arm measures
+# template with its own tool-calling schema, so the behavioral arm measures
 # what the agent does when given tools in the format it understands.
+
+TEMPLATE_PATH = (Path(__file__).resolve().parents[2]
+                 / "configs" / "llama31_chat_template.jinja")
+
+
+def ensure_tool_template(tokenizer) -> str:
+    """Make sure the tokenizer's chat template can render tool schemas.
+
+    The NousResearch mirror ships a minimal 348-char template with no `tools`
+    support. Rendering through it silently drops all three things the
+    behavioral arm depends on: the tool declarations, every assistant
+    tool_call, and the `ipython` role for tool results (they land under a
+    `tool` header the model was never trained on). The official Llama-3.1
+    template is vendored in configs/ (taken verbatim from the
+    unsloth/Meta-Llama-3.1-8B-Instruct tokenizer_config); swapping the
+    template changes nothing else about the tokenizer.
+
+    Returns which template ended up in use, for the results record.
+    """
+    if "tools" in (tokenizer.chat_template or ""):
+        return "tokenizer"
+    tokenizer.chat_template = TEMPLATE_PATH.read_text()
+    return "vendored_llama31"
 
 
 def _tool_schema(task) -> list[dict]:
@@ -271,13 +296,30 @@ def build_prompt_native(ctx, task, tokenizer) -> RolloutSpec:
                 }]
             msgs.append(entry)
         elif m["role"] == "tool":
+            # pass parseable payloads as dicts: the Llama-3.1 template tojson's
+            # its tool-result content, so a JSON *string* would render as one
+            # escaped quoted blob instead of the JSON object the model saw in
+            # training
+            try:
+                content = json.loads(m["content"])
+            except (TypeError, ValueError):
+                content = m["content"]
             msgs.append({"role": "tool", "name": m.get("name", "tool"),
-                         "content": m["content"]})
+                         "content": content})
     if not stop:
         raise ValueError(f"{ctx.task_id}/{ctx.arm_id}: no decision-point turn found")
 
     prompt = tokenizer.apply_chat_template(
         msgs, tools=_tool_schema(task), add_generation_prompt=True, tokenize=False)
+    # A template without tool support drops the declarations SILENTLY -- that is
+    # exactly how the first behavioral run was wasted. Refuse to hand back a
+    # prompt the model cannot act on.
+    missing = [t.name for t in task.tools if t.name not in prompt]
+    if missing:
+        raise ValueError(
+            f"{ctx.task_id}/{ctx.arm_id}: chat template dropped tool "
+            f"declarations {missing} -- call ensure_tool_template(tokenizer) "
+            f"before building native prompts")
     return RolloutSpec(
         task_id=ctx.task_id, arm_id=ctx.arm_id, prompt=prompt,
         cautious=task.decision_point.cautious_branch,

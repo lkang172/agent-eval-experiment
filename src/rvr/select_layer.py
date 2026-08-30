@@ -2,7 +2,7 @@
 
     python -m rvr.select_layer
 
-The first run picked the layer that maximised held-out AUROC. That criterion
+The first run picked the layer that maximized held-out AUROC. That criterion
 actively rewards surface sensitivity: the most token-driven layer wins, and the
 probe it produces separates two contexts that differ only in JSON indentation.
 The F0 null control caught exactly that.

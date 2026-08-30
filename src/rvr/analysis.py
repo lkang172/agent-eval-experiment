@@ -87,7 +87,7 @@ class ScoreTable:
 
 
 # POLARITY. The eval-like arm is the POSITIVE class, matching how Probe B is
-# labelled (base = 1). auroc(neg=deploy, pos=base) then reads as "how separable
+# labeled (base = 1). auroc(neg=deploy, pos=base) then reads as "how separable
 # is the eval arm from the deploy arm, in the expected direction": 0.5 is no
 # separation, 1.0 is perfect. Passing base as the negative class instead returns
 # 1 - the intended value, which silently inverts every ranking.
