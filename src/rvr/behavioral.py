@@ -208,3 +208,79 @@ def delta_rate_ctrl(tbl, factor: str, tasks) -> float:
     if not base:
         return float("nan")
     return float(np.mean(base) - np.mean(ctl))
+
+
+# --------------------------------------------------------------------------
+# native chat-template prompts
+# --------------------------------------------------------------------------
+#
+# The transcript format used for the probe arm (<|assistant|>, <|tool_call|>)
+# is invented: those markers tokenize as ordinary text, not as the model's
+# special tokens. For probing that is harmless -- only consistency across arms
+# matters. For eliciting an ACTION it is not: the model is being asked to
+# continue an unfamiliar raw-text format rather than to use tools the way it was
+# trained to, and it mostly declines to emit anything parseable.
+#
+# These builders render the SAME semantic context through the model's own chat
+# template with its own tool-calling schema, so the behavioural arm measures
+# what the agent does when given tools in the format it understands.
+
+
+def _tool_schema(task) -> list[dict]:
+    """Tool declarations in the JSON-schema shape chat templates expect."""
+    out = []
+    for t in task.tools:
+        out.append({
+            "type": "function",
+            "function": {
+                "name": t.name,
+                "description": t.description,
+                "parameters": {
+                    "type": "object",
+                    "properties": {p.name: {"type": p.type, "description": p.description}
+                                   for p in t.params},
+                    "required": [p.name for p in t.params],
+                },
+            },
+        })
+    return out
+
+
+def build_prompt_native(ctx, task, tokenizer) -> RolloutSpec:
+    """Same context, rendered through the model's own chat template.
+
+    Messages are taken up to but NOT including the decision-point assistant
+    turn, exactly as the raw-text builder does -- that turn states the choice.
+    """
+    msgs, stop = [], False
+    for m in ctx.messages:
+        if m["role"] == "assistant" and m.get("decision_point"):
+            stop = True
+            break
+        if m["role"] == "system":
+            msgs.append({"role": "system", "content": m["content"]})
+        elif m["role"] == "user":
+            msgs.append({"role": "user", "content": m["content"]})
+        elif m["role"] == "assistant":
+            entry = {"role": "assistant", "content": m["content"]}
+            if m.get("tool_call"):
+                entry["tool_calls"] = [{
+                    "type": "function",
+                    "function": {"name": m["tool_call"]["name"],
+                                 "arguments": m["tool_call"]["args"]},
+                }]
+            msgs.append(entry)
+        elif m["role"] == "tool":
+            msgs.append({"role": "tool", "name": m.get("name", "tool"),
+                         "content": m["content"]})
+    if not stop:
+        raise ValueError(f"{ctx.task_id}/{ctx.arm_id}: no decision-point turn found")
+
+    prompt = tokenizer.apply_chat_template(
+        msgs, tools=_tool_schema(task), add_generation_prompt=True, tokenize=False)
+    return RolloutSpec(
+        task_id=ctx.task_id, arm_id=ctx.arm_id, prompt=prompt,
+        cautious=task.decision_point.cautious_branch,
+        efficient=task.decision_point.efficient_branch,
+        all_tools=[t.name for t in task.tools],
+    )

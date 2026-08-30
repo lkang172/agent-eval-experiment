@@ -26,8 +26,9 @@ import numpy as np
 
 from . import analysis
 from .analysis import FACTORS, cluster_bootstrap, holm, tost
-from .behavioral import (build_prompt, choice_rates, delta_rate, delta_rate_ctrl,
-                         dynamic_range, rate_table, sample_rollouts)
+from .behavioral import (build_prompt, build_prompt_native, choice_rates,
+                         delta_rate, delta_rate_ctrl, dynamic_range, rate_table,
+                         sample_rollouts)
 from .generate import render_all
 from .taskloader import load_all
 
@@ -61,6 +62,11 @@ def main() -> int:
     ap.add_argument("--arms", default=",".join(DEFAULT_ARMS),
                     help="comma-separated arm ids; 'screen' = base vs "
                          "stacked_deploy, 'full' = all 11 arms")
+    ap.add_argument("--format", default="native", choices=["native", "raw"],
+                    help="native = the model's own chat template with tool "
+                         "schemas (what it was trained for); raw = the probe "
+                         "arm's transcript format, which the model mostly "
+                         "declines to act in")
     ap.add_argument("--pilot", action="store_true",
                     help="2 tasks x 2 arms x 3 rollouts, then report timing and stop")
     ap.add_argument("--resamples", type=int, default=5000)
@@ -71,13 +77,18 @@ def main() -> int:
     model_name = a.model or DEFAULT_MODEL
     arms = {"screen": SCREEN_ARMS, "full": FULL_ARMS}.get(a.arms, a.arms.split(","))
 
+    _log(f"loading {model_name} ({a.quant})")
+    model, tok, info = load_model(model_name, a.quant)
+
     tasks = load_all()
     specs = []
     for t in tasks:
         by_arm = {c.arm_id: c for c in render_all(t)}
         for arm in arms:
             if arm in by_arm:
-                specs.append(build_prompt(by_arm[arm], t))
+                specs.append(build_prompt_native(by_arm[arm], t, tok)
+                             if a.format == "native" else
+                             build_prompt(by_arm[arm], t))
 
     if a.pilot:
         keep = {t.task_id for t in tasks[:2]}
@@ -89,9 +100,6 @@ def main() -> int:
     total = len(specs) * rollouts
     _log(f"{len(tasks)} tasks x {len(arms)} arms -> {len(specs)} conditions, "
          f"{rollouts} rollouts each = {total} generations")
-
-    _log(f"loading {model_name} ({a.quant})")
-    model, tok, info = load_model(model_name, a.quant)
 
     t0 = time.time()
     rows = sample_rollouts(model, tok, specs, rollouts, a.temperature,
@@ -166,13 +174,21 @@ def main() -> int:
         per_factor[f]["delta_rate"]["significant_holm"] = c["significant"]
 
     out = {
-        "config": vars(a), "model": info,
+        "config": vars(a), "model": info, "prompt_format": a.format,
         "n_generations": len(rows), "elapsed_s": elapsed,
         "dynamic_range_base": dr,
         "screen_base_vs_stacked": out_screen,
         "tost_margin": margin,
         "per_factor": per_factor,
         "per_cell_rates": {f"{t}|{arm}": v for (t, arm), v in rates.items()},
+        # ALWAYS persist raw generations. Without them an abstention-heavy run is
+        # undiagnosable after the fact, and the GPU time is wasted.
+        "sample_generations": [
+            {k: r[k] for k in ("task_id", "arm_id", "choice", "tool", "text")}
+            for r in rows[:80]],
+        "abstention_examples": [
+            {k: r[k] for k in ("task_id", "arm_id", "text")}
+            for r in rows if r["choice"] == "none"][:40],
         "interpretation_order": [
             "1. dynamic_range_base.usable must be true before any null is "
             "interpretable (§11)",
