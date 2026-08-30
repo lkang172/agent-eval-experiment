@@ -125,6 +125,7 @@ def _flatten(msgs: list[dict], task: TaskSpec) -> tuple[str, dict]:
     pre_tool_call: list[int] = []
     tool_return_end: list[int] = []
     primary: int | None = None
+    behavioral_cut: int | None = None
     cur = 0
 
     for m in msgs:
@@ -143,6 +144,13 @@ def _flatten(msgs: list[dict], task: TaskSpec) -> tuple[str, dict]:
         parts.append(seg)
         start, cur = cur, cur + len(seg)
 
+        if m["role"] == "assistant" and m.get("decision_point"):
+            # RQ2 truncates HERE, before the assistant turn, not at `primary`.
+            # The authored assistant text at the decision point states the choice
+            # ("I'll confirm it against current refund policy"), so cutting after
+            # it would hand the model its own answer.
+            behavioral_cut = start
+
         if m["role"] == "assistant" and m.get("tool_call"):
             # end of the assistant text, immediately before the tool call
             pos = start + len(f"<|assistant|>\n{m['content']}")
@@ -157,6 +165,7 @@ def _flatten(msgs: list[dict], task: TaskSpec) -> tuple[str, dict]:
         "primary": primary if primary is not None else (pre_tool_call[-1] if pre_tool_call else len(text) - 1),
         "pre_tool_call": pre_tool_call,
         "tool_return_end": tool_return_end,
+        "behavioral_cut": behavioral_cut,
         "final": len(text) - 1,
     }
 
