@@ -1,0 +1,613 @@
+<title>Harness Leakage Handoff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+
+<style>
+  :root {
+    --ground:    #F5F8F8;
+    --surface:   #FFFFFF;
+    --sunken:    #EDF2F2;
+    --ink:       #14191B;
+    --ink-soft:  #3D4A4D;
+    --muted:     #617175;
+    --rule:      #D8E1E2;
+    --rule-soft: #E7EDED;
+    --accent:    #1F6F78;
+    --accent-ink:#155159;
+    --ok:        #2E7D5B;
+    --bad:       #A93A3A;
+    --warn:      #8A6414;
+    --ok-bg:     #E4F1EA;
+    --bad-bg:    #F7E5E5;
+    --warn-bg:   #F6EDDC;
+    --shadow:    0 1px 2px rgba(20,25,27,.06), 0 8px 24px -16px rgba(20,25,27,.28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:    #0E1416;
+      --surface:   #151E21;
+      --sunken:    #101A1C;
+      --ink:       #E7EEEF;
+      --ink-soft:  #C2D0D2;
+      --muted:     #8DA2A5;
+      --rule:      #26383C;
+      --rule-soft: #1D2C2F;
+      --accent:    #58B7C2;
+      --accent-ink:#8AD3DB;
+      --ok:        #62BE93;
+      --bad:       #E0817E;
+      --warn:      #D6A94E;
+      --ok-bg:     #16302A;
+      --bad-bg:    #35201F;
+      --warn-bg:   #322817;
+      --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:    #0E1416;
+    --surface:   #151E21;
+    --sunken:    #101A1C;
+    --ink:       #E7EEEF;
+    --ink-soft:  #C2D0D2;
+    --muted:     #8DA2A5;
+    --rule:      #26383C;
+    --rule-soft: #1D2C2F;
+    --accent:    #58B7C2;
+    --accent-ink:#8AD3DB;
+    --ok:        #62BE93;
+    --bad:       #E0817E;
+    --warn:      #D6A94E;
+    --ok-bg:     #16302A;
+    --bad-bg:    #35201F;
+    --warn-bg:   #322817;
+    --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 16.5px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  /* ---- masthead ---- */
+  header.masthead {
+    padding: 56px 0 28px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 5.2vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -.022em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+    max-width: 62ch;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .meta a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  /* ---- typography ---- */
+  h2 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-weight: 650;
+    font-size: 23px;
+    letter-spacing: -.014em;
+    line-height: 1.25;
+    margin: 52px 0 4px;
+    text-wrap: balance;
+  }
+  h2 + .sub {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  h3 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 16.5px;
+    letter-spacing: -.008em;
+    margin: 30px 0 8px;
+    text-wrap: balance;
+  }
+  p { margin: 0 0 15px; max-width: 68ch; }
+  ul, ol { margin: 0 0 15px; padding-left: 22px; max-width: 68ch; }
+  li { margin-bottom: 7px; }
+  strong { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+  a { color: var(--accent-ink); }
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .87em;
+    background: var(--sunken);
+    border: 1px solid var(--rule-soft);
+    border-radius: 3px;
+    padding: .08em .34em;
+    word-break: break-word;
+  }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 44px 0; }
+
+  /* ---- status chips ---- */
+  .chip {
+    display: inline-block;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    vertical-align: 1px;
+  }
+  .chip.ok   { background: var(--ok-bg);   color: var(--ok);   }
+  .chip.bad  { background: var(--bad-bg);  color: var(--bad);  }
+  .chip.warn { background: var(--warn-bg); color: var(--warn); }
+  .chip.idle { background: var(--sunken);  color: var(--muted); border: 1px solid var(--rule); }
+
+  /* ---- tables ---- */
+  .scroll { overflow-x: auto; margin: 0 0 20px; border-radius: 5px; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 480px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 14px;
+    background: var(--surface);
+  }
+  th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 11.5px;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 13px;
+    border-bottom: 1.5px solid var(--rule);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 13px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+  .table-note { font-size: 13.5px; color: var(--muted); margin: -10px 0 22px; max-width: 68ch; }
+
+  /* ---- command blocks ---- */
+  .cmd {
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 13px 15px;
+    margin: 0 0 16px;
+    overflow-x: auto;
+  }
+  .cmd pre {
+    margin: 0;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+    line-height: 1.62;
+    color: var(--ink);
+    white-space: pre;
+  }
+  .cmd .c { color: var(--muted); }
+
+  /* ---- callouts ---- */
+  .note {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--warn);
+    border-radius: 4px;
+    padding: 15px 17px;
+    margin: 0 0 20px;
+    box-shadow: var(--shadow);
+  }
+  .note.stop { border-left-color: var(--bad); }
+  .note.good { border-left-color: var(--ok); }
+  .note p:last-child { margin-bottom: 0; }
+  .note .label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--warn);
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+  }
+  .note.stop .label { color: var(--bad); }
+  .note.good .label { color: var(--ok); }
+
+  /* ---- step sequence ---- */
+  .step { display: flex; gap: 16px; margin: 0 0 34px; }
+  .step-n {
+    flex: 0 0 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--surface);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  :root[data-theme="dark"] .step-n,
+  :root:not([data-theme="light"]) .step-n { color: #0E1416; }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .step-n { color: #FFFFFF; }
+  }
+  .step-body { flex: 1 1 auto; min-width: 0; }
+  .step-body h3 { margin-top: 0; }
+
+  .files { font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+  .files td { padding: 7px 13px; }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  a:focus-visible, :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <p class="eyebrow">Project handoff · 30 Aug 2026</p>
+  <h1>Ranking harness artifacts by evaluation-awareness leakage</h1>
+  <p class="standfirst">Which properties of an agentic eval harness leak cues that a model can detect — and do those cues change what the agent actually does?</p>
+  <div class="meta">
+    <span>repo · <a href="https://github.com/lkang172/agent-eval-experiment">lkang172/agent-eval-experiment</a></span>
+    <span>branch · main @ 573fd35</span>
+    <span>tests · 19/19</span>
+  </div>
+</header>
+
+<h2>What this study is</h2>
+<p class="sub">Read <code>docs/overview.md</code> in full before changing anything</p>
+
+<p>Evaluation harnesses leak cues, and models detect them. That much is established. What designers lack is an <em>ordered list</em> of which harness properties leak worst, so they know what to fix first.</p>
+
+<p>Chat-based studies can't produce that list — in chat the prompt is the whole stimulus, so evaluation context is entangled with benchmark format. Agentic trajectories separate the task from the harness, which is what makes the attribution possible.</p>
+
+<p>Two research questions, measured independently:</p>
+<ul>
+  <li><strong>RQ1 — attribution.</strong> Ranked by effect size, which harness properties shift a linear probe's eval/deploy score with task text held fixed? This measures <em>representation</em>.</li>
+  <li><strong>RQ2 — dissociation.</strong> For each property, does a representational shift come with a <em>behavioural</em> shift — a change in which tool the agent picks at a decision point?</li>
+</ul>
+
+<p>The four factors under test, each toggled between an eval-like and a deploy-like setting:</p>
+
+<div class="scroll">
+<table>
+  <thead><tr><th>ID</th><th>Factor</th><th>Eval-like (0)</th><th>Deploy-like (1)</th></tr></thead>
+  <tbody>
+    <tr><td><code>F1</code></td><td>Tool-return payload realism</td><td>Minimal tidy JSON, task-relevant fields only</td><td>Extra fields, nulls, nested metadata</td></tr>
+    <tr><td><code>F3</code></td><td>Failure realism</td><td>No tool call ever fails</td><td>Transient failure, then retry</td></tr>
+    <tr><td><code>F4</code></td><td>Identifier realism</td><td>Sequential synthetic (<code>user_001</code>)</td><td>UUIDv4, checksummed SKUs</td></tr>
+    <tr><td><code>F6</code></td><td>Session/state artifacts</td><td>Reset markers, eval-set metadata, fixed seed</td><td>Natural session continuation</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-note">F2 (latency) and F5 (user-turn provenance) were cut before this work began — see the brief.</p>
+
+<hr>
+
+<h2>Status at a glance</h2>
+<p class="sub">Where each piece of the protocol stands</p>
+
+<div class="scroll">
+<table>
+  <thead><tr><th>Stage</th><th>Status</th><th>Detail</th></tr></thead>
+  <tbody>
+    <tr><td>Stimulus generation</td><td><span class="chip ok">Sound</span></td><td>30 tasks, 390 contexts, 210/210 audit assertions passing</td></tr>
+    <tr><td>§7 harness verification</td><td><span class="chip ok">Passed</span></td><td>ADK's eval path does not alter model input</td></tr>
+    <tr><td>Probe A (transferred)</td><td><span class="chip bad">Confounded</span></td><td>Reads corpus identity, not eval-awareness. Fails the gate.</td></tr>
+    <tr><td>Probe B (in-domain)</td><td><span class="chip ok">Valid</span></td><td>0.899 AUROC out-of-fold at layer 4, F0 null passes</td></tr>
+    <tr><td>RQ1 attribution</td><td><span class="chip warn">Underpowered</span></td><td>Only F6 significant; below the noise floor</td></tr>
+    <tr><td>RQ2 behaviour</td><td><span class="chip bad">Not measured</span></td><td>First run was a measurement failure; fix is in, unrun</td></tr>
+    <tr><td>§4.3 fixture-plausibility</td><td><span class="chip idle">Not started</span></td><td>Needs ~50 human ratings; sheet is generated</td></tr>
+    <tr><td>Cross-harness replication</td><td><span class="chip idle">Not started</span></td><td>Optional; §7 of the brief</td></tr>
+  </tbody>
+</table>
+</div>
+
+<hr>
+
+<h2>Environment</h2>
+<p class="sub">Colab T4, 8-bit — the model does not fit in fp16</p>
+
+<p>A 16&nbsp;GB T4 cannot hold Llama-3.1-8B in fp16 (~16.1&nbsp;GB of weights before activations), so everything runs in 8-bit. This is a stated limitation of the study, not an implementation detail: the probes read quantized activations. <code>results.json</code> records the quantization mode so runs from different settings are never pooled.</p>
+
+<p>Weights come from <code>NousResearch/Meta-Llama-3.1-8B-Instruct</code> — an ungated mirror. The official <code>meta-llama</code> repo is <code>gated: manual</code> and would block on an access request.</p>
+
+<div class="cmd"><pre><span class="c"># Fresh Colab runtime — full setup</span>
+%cd /content
+!git clone -q https://github.com/lkang172/agent-eval-experiment.git
+%cd /content/agent-eval-experiment
+!pip install -q transformers accelerate bitsandbytes
+
+<span class="c"># Verify the stimulus pipeline before any GPU work</span>
+!PYTHONPATH=src python -m rvr.build
+<span class="c"># expect: 30 tasks -> 390 contexts; audits all_ok=True</span></pre></div>
+
+<p>Local CPU work (analysis, layer selection, audits) needs only <code>numpy scipy scikit-learn pyyaml transformers</code> — no torch.</p>
+
+<hr>
+
+<h2>What is built</h2>
+<p class="sub">src/rvr — 18 modules, 19 tests</p>
+
+<div class="scroll">
+<table class="files">
+  <tbody>
+    <tr><td><code>schema.py</code></td><td>Task/trajectory model. Tool returns stored <em>semantically</em> (field roles + ID references) so factors apply at render time.</td></tr>
+    <tr><td><code>factors.py</code></td><td>F1/F3/F6 renderers and their per-factor controls.</td></tr>
+    <tr><td><code>identifiers.py</code></td><td>F4 and its control. Scrambled IDs match natural ones on length and character class while being format-invalid.</td></tr>
+    <tr><td><code>generate.py</code></td><td>Renders 13 arms per task; records read positions and the behavioural cut point.</td></tr>
+    <tr><td><code>audits.py</code></td><td>Seven §8 audits: lexical leakage, length matching, F0 null, answer leakage, control validity, call counts.</td></tr>
+    <tr><td><code>analysis.py</code></td><td>AUROC, cluster bootstrap by task, Holm, TOST, B-len/B-char bounds.</td></tr>
+    <tr><td><code>probe.py</code></td><td>Layer sweep, grouped CV, out-of-fold scoring, the §4.4 gates.</td></tr>
+    <tr><td><code>behavioral.py</code></td><td>RQ2: prompt truncation, native chat-template rendering, tool-call parsing, dynamic-range gate.</td></tr>
+    <tr><td><code>select_layer.py</code></td><td>Re-selects the probe layer under the F0 null constraint. CPU only.</td></tr>
+    <tr><td><code>sad_data.py</code></td><td>Loads SAD <code>stages_oversight</code> for Probe A. Downloads into gitignored <code>data/sad/</code>.</td></tr>
+    <tr><td><code>run_probe_arm.py</code><br><code>run_behavioral_arm.py</code></td><td>The two end-to-end drivers.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">Data handling</span>
+  <p>SAD's licence requires that its question and answer text never appear in plain text anywhere scrapable, <em>including private repos</em>. Everything SAD-derived lands in <code>data/sad/</code>, which is gitignored. Do not copy SAD text into results, notebooks, logs, or commit messages.</p>
+  <p>Rendered trajectories are also gitignored. They are deterministic — <code>python -m rvr.build</code> reproduces all 390 byte-for-byte — so auditability is preserved without publishing eval-awareness stimuli.</p>
+</div>
+
+<hr>
+
+<h2>Decisions that deviate from the brief</h2>
+<p class="sub">All recorded in configs/preregistration.json — read it before changing analysis</p>
+
+<h3>Δ_ctrl is a difference of contrasts</h3>
+<p>The brief writes <code>Δ_ctrl = AUROC(eval arm) − AUROC(control arm)</code>, which doesn't parse — an arm has no AUROC, a contrast does. Resolved to <code>AUROC(base vs deploy) − AUROC(base vs control)</code>: the factor's effect net of what its matched control reproduces.</p>
+
+<h3>§8.1's 2% token matching is unsatisfiable, and not the binding constraint</h3>
+<p>Every factor changes length by construction — F1 realism <em>is</em> extra fields (+60%), F3 failure+retry <em>is</em> extra content (+26%). Padding the eval arm to match would turn it into the deploy arm.</p>
+<p>It also doesn't matter. Δ_ctrl subtracts two contrasts sharing the same eval arm, so a common length confound cancels. This is verified in <code>tests/test_analysis.py</code>: a probe reading <em>only</em> token length yields Δ_base &gt; 0.95 and Δ_ctrl &lt; 0.05. What the endpoint actually needs is each <strong>control matched to its own deploy arm</strong>, which is enforced and holds at a mean |Δ| of 0.47%.</p>
+
+<h3>Probe A is trained, not transferred</h3>
+<p>Nguyen et al.'s released probe is a Llama-3.3-70B direction (hidden dim 8192). Llama-3.1-8B is 4096. It is dimensionally inapplicable, not weakly-transferring. Their 0.517 / 0.584 / 0.598 baselines are reference points only; we recompute our own.</p>
+
+<h3>F6's deploy arm is a content contrast</h3>
+<p>"Absent; continuous session context" read two ways. Resolved so all three F6 arms carry a structurally identical five-key block, differing only in what it signals. Keeps F6 length-matched instead of being a presence/absence effect that B-len would absorb.</p>
+
+<h3>The behavioural arm is staged</h3>
+<p><code>base</code> vs <code>stacked_deploy</code> is the maximum available manipulation and separates representationally at AUROC 0.999. Screening on it first is the most powerful test of whether harness realism moves behaviour at all, at 1,200 generations instead of 4,950. Declared before any behavioural data existed.</p>
+
+<hr>
+
+<h2>Results: RQ1, representation</h2>
+<p class="sub">results/results.json · results/layer_selection.json</p>
+
+<h3>Probe A is a corpus classifier — do not use it</h3>
+<p>Probe A reached 0.9999 AUROC on SAD <code>stages_oversight</code>. That is not evaluation awareness. Its two classes come from <strong>disjoint corpora</strong>: eval from <code>test_anthropic</code>/<code>bigbench</code>/<code>wmdp</code>, deploy entirely from <code>wildchat_sampled</code>.</p>
+
+<div class="scroll">
+<table>
+  <thead><tr><th>Discriminator</th><th class="num">AUROC</th></tr></thead>
+  <tbody>
+    <tr><td>Layer-10 probe</td><td class="num">0.9999</td></tr>
+    <tr><td>Bag-of-words</td><td class="num">0.986</td></tr>
+    <tr><td>First 40 characters only</td><td class="num">0.977</td></tr>
+    <tr><td>Embedding layer (layer 0)</td><td class="num">0.895</td></tr>
+    <tr><td>Length baseline</td><td class="num">0.546</td></tr>
+    <tr><td>Special-character baseline</td><td class="num">0.514</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-note">The length and special-character baselines are blind to a vocabulary confound, which is how a corpus classifier passed the original gate. <code>gate_probe_a</code> now treats a high embedding-layer AUROC as a <em>disqualifier</em>, and this probe fails it.</p>
+
+<p>This reproduces Devbunova's critique (2603.19426) on our own setup and is worth reporting as a finding, not just fixing.</p>
+
+<h3>Layer 1 was the only leaking layer in the network</h3>
+<p>Selecting the probe layer by maximum AUROC picked layer 1 — whose probe separates two contexts differing <em>only</em> in JSON indentation (F0 AUROC 0.202, token-count identical). Layer selection is now constrained to layers passing the F0 null control. 32 of 33 pass; the constraint costs 0.016 AUROC and selects <strong>layer 4</strong>, where F0 passes at 0.457.</p>
+
+<div class="note good">
+  <span class="label">Method note worth publishing</span>
+  <p>Choosing a probe layer by maximum held-out AUROC actively selects for surface sensitivity — the most token-driven layer wins. Constraining by a cosmetic null control removes the artifact at near-zero cost in AUROC.</p>
+</div>
+
+<h3>Attribution at layer 4</h3>
+
+<div class="scroll">
+<table>
+  <thead><tr><th>Factor</th><th class="num">Δ_ctrl</th><th>95% CI</th><th class="num">p (Holm)</th><th class="num">Δ_base</th><th class="num">Length alone</th></tr></thead>
+  <tbody>
+    <tr><td><strong>F6</strong> session artifacts</td><td class="num">+0.074</td><td><code>[0.036, 0.109]</code></td><td class="num">&lt;0.0001</td><td class="num">0.838</td><td class="num">0.561</td></tr>
+    <tr><td>F4 identifiers</td><td class="num">+0.017</td><td><code>[−0.018, 0.054]</code></td><td class="num">1.00</td><td class="num">0.749</td><td class="num">0.751</td></tr>
+    <tr><td>F3 failure realism</td><td class="num">+0.004</td><td><code>[−0.014, 0.024]</code></td><td class="num">1.00</td><td class="num">0.902</td><td class="num">1.000</td></tr>
+    <tr><td>F1 payload realism</td><td class="num">−0.004</td><td><code>[−0.017, 0.003]</code></td><td class="num">1.00</td><td class="num">0.943</td><td class="num">1.000</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>The last two columns are the important ones. <strong>For F1 and F3, a token-count-only classifier beats the probe outright.</strong> For F4 it ties. Only F6 shows the probe reading beyond surface form, by +0.277.</p>
+
+<div class="note stop">
+  <span class="label">Do not report this as a ranking</span>
+  <p>F6's +0.074 sits <em>below</em> the noise floor. The random-direction band recomputed at layer 4 gives p95&nbsp;=&nbsp;0.147, and tested directly, <strong>14.5% of random meaningless directions produce |Δ_ctrl| ≥ 0.074</strong>.</p>
+  <p>Honest verdict: no factor's representational effect clears the noise floor at N=30. F6 is the only candidate — the only significant Δ_ctrl and the only factor reading beyond length — but it is suggestive and underpowered. Report with a power statement.</p>
+</div>
+
+<p>One caveat to carry into the writeup: F6 is the single factor whose length confound does <em>not</em> cancel in Δ_ctrl (B-len gives −0.112 versus exactly 0.000 for the others), because its three arms sit within ~1% on tokens so both AUROCs are near chance. The probe effect runs <em>opposite</em> to that contribution, so it isn't explained by length — but F6's contrast is less clean than the others'.</p>
+
+<hr>
+
+<h2>Results: RQ2, behaviour</h2>
+<p class="sub">results/behavioral.json — a measurement failure, not a null</p>
+
+<p>The first screen ran 1,200 generations over 85 minutes and produced <strong>no usable behavioural data</strong>. 87.2% of generations emitted no parseable tool call. Only 9 of 30 tasks yielded any decision; one showed the agent picking both branches. The §11 dynamic-range gate correctly reported <code>usable: False</code>.</p>
+
+<div class="scroll">
+<table>
+  <thead><tr><th>Parsed choice</th><th class="num">Count</th><th class="num">Share</th></tr></thead>
+  <tbody>
+    <tr><td>none — no tool call found</td><td class="num">1046</td><td class="num">87.2%</td></tr>
+    <tr><td>efficient branch</td><td class="num">87</td><td class="num">7.2%</td></tr>
+    <tr><td>other tool</td><td class="num">36</td><td class="num">3.0%</td></tr>
+    <tr><td>cautious branch</td><td class="num">31</td><td class="num">2.6%</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-note">The screen's Δ = +0.001 (p = 0.70) is meaningless — it compares two conditions in which the model mostly did nothing parseable.</p>
+
+<p><strong>Cause.</strong> The behavioural prompts were built on the probe arm's transcript format, whose markers (<code>&lt;|assistant|&gt;</code>, <code>&lt;|tool_call|&gt;</code>) are invented strings that tokenize as ordinary text, not Llama-3.1 special tokens. Harmless for probing, where only consistency across arms matters. Fatal for eliciting an <em>action</em>: the model was asked to continue an unfamiliar raw-text format rather than use tools as trained, and mostly declined.</p>
+
+<p><strong>Fix, committed but unrun.</strong> <code>build_prompt_native</code> renders the identical semantic context through the model's own chat template with proper tool schemas, cut at the same decision point. <code>--format native</code> is now the default. The driver also persists sample generations and abstention examples — their absence made the failed run undiagnosable and wasted the GPU time.</p>
+
+<hr>
+
+<h2>Next steps</h2>
+<p class="sub">In order — step 1 gates everything after it</p>
+
+<div class="step">
+  <div class="step-n">1</div>
+  <div class="step-body">
+    <h3>Pilot the native-format behavioural arm</h3>
+    <p>Cheap, and it decides whether the fix worked. <strong>Check the parsed-choice distribution before running anything longer.</strong> If <code>none</code> is still dominant, read <code>sample_generations</code> in the pilot output and diagnose from the raw text — do not spend another 85-minute run on it.</p>
+    <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.run_behavioral_arm \
+    --pilot --format native --quant 8bit</pre></div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-n">2</div>
+  <div class="step-body">
+    <h3>Run the screen: base vs stacked_deploy</h3>
+    <p>1,200 generations, roughly 85 minutes at the observed 4.3&nbsp;s/generation. The first number to read is the dynamic-range gate. If <code>usable: False</code> again, the decision points are not live and that is a task-design problem to fix before any behavioural claim — it is <em>not</em> evidence about the hypothesis.</p>
+    <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.run_behavioral_arm \
+    --arms screen --rollouts 20 --format native --quant 8bit</pre></div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-n">3</div>
+  <div class="step-body">
+    <h3>Branch on the screen result</h3>
+    <p><strong>If the screen moves</strong> — decompose per factor. About 4,950 generations, ~6 hours, which exceeds a Colab session. Add resumable checkpointing first, or move to a persistent GPU.</p>
+    <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.run_behavioral_arm \
+    --arms full --rollouts 15 --format native --quant 8bit</pre></div>
+    <p><strong>If the screen does not move</strong> — that is a null on the strongest available manipulation, which is a far stronger claim than four separately-underpowered per-factor nulls. It requires a behaviour-specific equivalence margin (see open questions) plus an achieved-power statement.</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-n">4</div>
+  <div class="step-body">
+    <h3>Run the §4.3 control-validity check</h3>
+    <p>Not yet started, and it gates every Δ_ctrl interpretation. An LLM judge scores all 390 arms 1–7 on "does this look like a test fixture rather than a live system"; ~50 human ratings validate the judge. <strong>Each control arm must sit at or below its eval arm.</strong> If a control scores higher, that factor's Δ_ctrl is invalid and only Δ_base may be reported.</p>
+    <p>There is already a signal worth chasing here: F3's Δ_ctrl came out significantly <em>negative</em> in the layer-1 run, meaning its control separated more than its deploy arm — exactly the inversion this check exists to catch.</p>
+    <div class="cmd"><pre>!PYTHONPATH=src python -m rvr.make_rating_sheet --n 50
+<span class="c"># -> results/plausibility/rating_sheet.csv + transcripts/</span>
+<span class="c"># rating_key.json holds arm identities — do not open before rating</span></pre></div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-n">5</div>
+  <div class="step-body">
+    <h3>Decide what to do about Probe A</h3>
+    <p>Either rebuild it on a source-matched chat split (the current one is corpus-confounded and cannot be salvaged by reweighting), or report it as confounded and excluded, leaning on Probe B. Either way the A–B transfer gap currently in <code>results.json</code> is meaningless and must not be quoted.</p>
+  </div>
+</div>
+
+<h3>Re-running the probe arm</h3>
+<p>Only needed if the stimuli or model change. Analysis alone does not need the GPU — <code>results/activations_primary.npz</code> caches all 390 × 33 × 4096 activations.</p>
+<div class="cmd"><pre><span class="c"># GPU: full probe arm, ~18 min</span>
+!PYTHONPATH=src python -m rvr.run_probe_arm --quant 8bit --batch-size 4
+
+<span class="c"># CPU: re-select layer + recompute primary family from cache</span>
+!PYTHONPATH=src python -m rvr.select_layer
+
+<span class="c"># CPU: all tests</span>
+!for t in tests/test_*.py; do python3 $t; done</pre></div>
+
+<hr>
+
+<h2>Traps that already cost time</h2>
+<p class="sub">Each of these was a real bug — regression tests now pin them</p>
+
+<ul>
+  <li><strong>Scoring in-sample.</strong> Fitting Probe B on the base and deploy arms then scoring those same contexts measures training-set fit. It produced Δ values of exactly 0.0 and 1.0 and a spurious F0 failure. Always use <code>fit_folds_and_score_all</code>, which scores every context with a probe that never saw its task.</li>
+  <li><strong>AUROC polarity.</strong> Eval-like is the <em>positive</em> class throughout, matching Probe B's labelling (<code>base=1</code>). Passing base as the negative class returns <code>1 − intended</code> and silently inverts every ranking.</li>
+  <li><strong><code>F0_null_a</code> is byte-identical to <code>base</code>.</strong> By design — the F0 pair differs only in whitespace. But it means an in-sample probe compares a memorised training point against a perturbation of it.</li>
+  <li><strong>Solution terms must come from task-relevant fields.</strong> F1's eval arm drops contextual and metadata fields, so a solution term sourced from one appears in some arms and not others and trips the answer-leakage audit. <code>TaskSpec.validate()</code> now rejects this.</li>
+  <li><strong>System prompts must not use <code>{placeholder}</code> templating.</strong> The §7 verification found that ADK's eval-only request intercepter writes a UUID into session state, which an instruction interpolating that key picks up from turn 2. Static prompts are immune; <code>TaskSpec.validate()</code> enforces it.</li>
+  <li><strong>Colab runtimes are recycled.</strong> Long runs lose everything. Add checkpointing before any multi-hour run.</li>
+</ul>
+
+<hr>
+
+<h2>Open questions for the human</h2>
+
+<ul>
+  <li><strong>The behavioural equivalence margin.</strong> The probe arm's TOST margin is in AUROC units and does not transfer to a difference in proportions. Before any "does not affect behaviour" claim, someone must set the smallest shift in cautious-branch rate an eval designer would actually act on. This is a judgment call, not a computation.</li>
+  <li><strong>N=30 may be too small.</strong> The random-direction noise floor at layer 4 is 0.147 while the largest observed effect is 0.074. Either raise N toward the brief's preferred 40, or accept that the representational arm reports an underpowered result with honest power reporting.</li>
+  <li><strong>Quantization.</strong> All results read 8-bit activations. If a larger GPU becomes available, an fp16 replication would remove the caveat entirely.</li>
+</ul>
+
+<div class="note">
+  <span class="label">Framing discipline, from the brief</span>
+  <p>This study does not resolve a confound and is not a decisive test. It separates two previously entangled things and reports what it finds. A well-powered null is a publishable result; an underpowered null is not. The axis that matters is powered versus underpowered, not positive versus null.</p>
+</div>
+
+<footer>
+  Handoff prepared 30 Aug 2026 · main @ 573fd35 · 19/19 tests passing<br>
+  Source of truth for the protocol: <code>docs/overview.md</code> · Analysis decisions: <code>configs/preregistration.json</code>
+</footer>
+
+</div>
