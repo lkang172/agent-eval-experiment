@@ -12,7 +12,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-gpu = ["torch>=2.3", "transformers>=4.44", "vllm>=0.5"]
+# Probe arm. bitsandbytes provides 8-bit/4-bit loading, which a 16GB T4 needs:
+# Llama-3.1-8B in fp16 is ~16.1GB of weights before any activations.
+gpu = [
+    "torch>=2.3",
+    "transformers>=4.44",
+    "accelerate>=0.30",
+    "bitsandbytes>=0.43",
+]
+# Behavioral arm (§6). Separate because vLLM pins torch versions and does not
+# need to be installed for the probe arm.
+behavioral = ["vllm>=0.5"]
 dev = ["pytest>=8.0"]
 
 [build-system]
