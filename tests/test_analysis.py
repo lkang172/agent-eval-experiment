@@ -28,7 +28,10 @@ def _simulate(n_tasks=30, seed=0):
     F6  negligible effect                           -> should be TOST-equivalent
     """
     rng = np.random.default_rng(seed)
-    spec = {"F1": (2.0, 0.2), "F3": (1.0, 0.95), "F4": (0.8, 0.15), "F6": (0.05, 0.03)}
+    # F3's control reproduces the effect EXACTLY (1.0 vs 1.0) -- the true Draft B
+    # shape. A 0.95 control is a real 0.05 difference that 30 tasks can detect,
+    # so it would legitimately come out significant.
+    spec = {"F1": (2.0, 0.2), "F3": (1.0, 1.0), "F4": (0.8, 0.15), "F6": (0.05, 0.03)}
     rows = []
     for i in range(n_tasks):
         t = f"task_{i:02d}"
@@ -40,9 +43,11 @@ def _simulate(n_tasks=30, seed=0):
                          "tokens": tokens, "special_chars": int(tokens * 0.4)})
 
         add("base", base, n_tok)
+        # Eval-like (base) scores HIGHER, matching Probe B's labelling (base=1).
+        # The deploy and control arms sit BELOW base by their effect size.
         for f, (d_dep, d_ctl) in spec.items():
-            add(f"{f}_deploy", base + d_dep + rng.normal(0, .3), int(n_tok * 1.3))
-            add(f"{f}_ctrl", base + d_ctl + rng.normal(0, .3), int(n_tok * 1.3))
+            add(f"{f}_deploy", base - d_dep + rng.normal(0, .3), int(n_tok * 1.3))
+            add(f"{f}_ctrl", base - d_ctl + rng.normal(0, .3), int(n_tok * 1.3))
         add("F0_null_a", base + rng.normal(0, .02), n_tok)
         add("F0_null_b", base + rng.normal(0, .02), n_tok)
     return ScoreTable(rows)
@@ -60,7 +65,12 @@ def test_primary_recovers_known_structure():
     # contrast rarely falls below 0.5, so the attainable ceiling is ~0.5, not 1.0.
     # With base ~ N(0,1) and d=2.0, theory gives 0.92 - 0.55 ~= 0.36.
     assert d["F1"] > 0.30, d
-    assert d["F1"] > d["F4"] > d["F6"] > d["F3"], d
+    # F1 and F4 have real effects beyond their controls and must rank in that
+    # order. F3 (control reproduces the effect) and F6 (negligible effect) both
+    # sit at ~0, so their relative order is noise and is not asserted.
+    assert d["F1"] > d["F4"] > 0.1, d
+    assert abs(d["F3"]) < 0.10 and abs(d["F6"]) < 0.10, d
+    assert d["F4"] > max(d["F3"], d["F6"]), d
     # F3's control reproduces the effect -> Draft B shape, delta_ctrl near zero.
     assert abs(d["F3"]) < 0.10, d
     # Ranking should put F1 first and F3 last of the two extremes.
@@ -81,7 +91,10 @@ def test_blen_bound_flags_length_confound():
     delta_base -- that is exactly the confound the bound exists to quantify."""
     res = run_primary(_simulate(), tost_margin=0.10, n_resamples=500)
     b = res["baselines"]["F1"]["B_len"]
-    assert b["delta_base"] > 0.9, b        # length alone separates base from deploy
+    # Length alone separates base from deploy almost perfectly. The signed value
+    # sits near 0 because deploy arms are the LONGER ones; separability is the
+    # direction-agnostic reading.
+    assert b["delta_base_separability"] > 0.9, b
     assert abs(b["delta_ctrl"]) < 0.1, b   # but explains none of delta_ctrl
 
 
@@ -138,7 +151,9 @@ def test_delta_ctrl_cancels_a_purely_length_driven_effect():
     for f in ("F1", "F3", "F4", "F6"):
         db = res["per_factor"][f]["delta_base"]["point"]
         dc = res["per_factor"][f]["delta_ctrl"]["point"]
-        assert db > 0.95, (f, db)                        # length alone separates
+        # Separation is near-total in one direction or the other; which way
+        # depends only on whether the eval arm is the longer one.
+        assert abs(db - 0.5) > 0.45, (f, db)
         assert abs(dc) < 0.05, (f, dc)                   # but cancels in delta_ctrl
         assert res["per_factor"][f]["tost_delta_ctrl"]["equivalent"], (f, dc)
 

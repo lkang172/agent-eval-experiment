@@ -150,20 +150,39 @@ def fit_at_layer(X_all: np.ndarray, y: Sequence[int], layer: int,
 
 
 def gate_probe_a(cv_auroc: float, baselines: dict[str, float],
-                 threshold: float = 0.75) -> dict:
-    """Probe A must clear 0.75 AND beat our own recomputed surface baselines.
+                 threshold: float = 0.75,
+                 embedding_auroc: float | None = None,
+                 embedding_max: float = 0.65) -> dict:
+    """Probe A must clear 0.75, beat our own surface baselines, AND not be
+    separable at the embedding layer.
+
+    The embedding check is a disqualifier, not a bar to clear. Layer 0 is the
+    embedding output: nothing has been computed there, so separability at layer
+    0 means the two classes differ in token identity -- a corpus or vocabulary
+    confound. Length and special-character baselines cannot detect that, which
+    is how a probe reading "benchmark item vs chat log" can score 0.9999 and
+    still pass a naive gate.
 
     Nguyen et al.'s 0.517 / 0.584 / 0.598 were measured on Llama-3.3-70B and a
     different split; they are reference points, not comparators for an 8B model.
     """
     beats = {k: cv_auroc > v for k, v in baselines.items()}
-    passed = cv_auroc >= threshold and all(beats.values())
+    confounded = embedding_auroc is not None and embedding_auroc > embedding_max
+    passed = cv_auroc >= threshold and all(beats.values()) and not confounded
+    if confounded:
+        why = (f"embedding-layer AUROC {embedding_auroc:.3f} > {embedding_max}: the "
+               "classes are separable from raw token embeddings, so this probe "
+               "reads surface form, not an evaluation-awareness representation")
+    elif passed:
+        why = "proceed"
+    else:
+        why = ("Probe A does not clear the gate; the transferred arm is "
+               "uninterpretable and Probe B must carry the study")
     return {
         "gate": "probe_A", "auroc": cv_auroc, "threshold": threshold,
-        "our_baselines": baselines, "beats_baselines": beats, "passed": passed,
-        "consequence": ("proceed" if passed else
-                        "Probe A does not clear the gate; the transferred arm is "
-                        "uninterpretable and Probe B must carry the study"),
+        "our_baselines": baselines, "beats_baselines": beats,
+        "embedding_auroc": embedding_auroc, "embedding_max": embedding_max,
+        "surface_confounded": confounded, "passed": passed, "consequence": why,
     }
 
 
@@ -179,3 +198,62 @@ def gate_probe_b(cv_auroc: float, threshold: float = 0.65) -> dict:
                         "STOP: no linearly recoverable signal in agentic "
                         "trajectories; report the null with the A-B transfer gap"),
     }
+
+
+# --------------------------------------------------------------------------
+# out-of-fold scoring
+# --------------------------------------------------------------------------
+
+
+def fit_folds_and_score_all(X_train: np.ndarray, y_train: Sequence[int],
+                            groups_train: Sequence[str], X_all: np.ndarray,
+                            tasks_all: Sequence[str], layer: int,
+                            n_splits: int = 5, C: float = 1.0,
+                            seed: int = 0) -> tuple[np.ndarray, dict]:
+    """Score EVERY context with a probe that never saw its task.
+
+    Why this exists. Fitting Probe B on the base and deploy arms and then
+    scoring those same contexts measures training-set fit, not an effect: an
+    overfit probe separates its own training points almost perfectly, so Δ_base
+    saturates at 1.0 and the F0 null test fails for reasons that have nothing to
+    do with the pipeline leaking.
+
+    Here a probe is fit per fold on the training arms of the training tasks,
+    then applied to ALL arms of the held-out tasks -- including the control,
+    null and stacked arms, which never appear in any training set. Every score
+    used downstream is therefore out-of-sample with respect to its own task.
+    """
+    from sklearn.model_selection import GroupKFold
+
+    y_train = np.asarray(y_train)
+    g_train = np.asarray(groups_train)
+    tasks_all = np.asarray(tasks_all)
+
+    n_folds = min(n_splits, len(np.unique(g_train)))
+    scores = np.full(len(X_all), np.nan)
+    covered, fold_aurocs = set(), []
+
+    for tr, te in GroupKFold(n_splits=n_folds).split(X_train, y_train, g_train):
+        held_out = set(g_train[te])
+        Xtr, mean, scale = _standardize(X_train[tr, layer, :])
+        clf = _fit_logreg(Xtr, y_train[tr], C, seed)
+        w, b = clf.coef_[0], float(clf.intercept_[0])
+
+        # honest fold AUROC on the held-out training arms
+        s_te = ((X_train[te, layer, :] - mean) / scale) @ w + b
+        if len(np.unique(y_train[te])) == 2:
+            fold_aurocs.append(auroc(s_te[y_train[te] == 0], s_te[y_train[te] == 1]))
+
+        # apply to every arm of every held-out task
+        mask = np.isin(tasks_all, list(held_out))
+        scores[mask] = ((X_all[mask, layer, :] - mean) / scale) @ w + b
+        covered |= held_out
+
+    info = {
+        "layer": layer, "n_folds": n_folds,
+        "cv_auroc_mean": float(np.mean(fold_aurocs)) if fold_aurocs else float("nan"),
+        "n_scored": int((~np.isnan(scores)).sum()),
+        "n_unscored": int(np.isnan(scores).sum()),
+        "tasks_covered": len(covered),
+    }
+    return scores, info

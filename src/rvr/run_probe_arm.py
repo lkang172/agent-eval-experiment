@@ -29,8 +29,8 @@ from .activations import DEFAULT_MODEL, extract, load_model, resolve_positions
 from .analysis import ScoreTable, run_primary
 from .audits import run_all
 from .generate import render_all
-from .probe import (best_layer, fit_at_layer, gate_probe_a, gate_probe_b,
-                    layer_sweep)
+from .probe import (best_layer, fit_at_layer, fit_folds_and_score_all,
+                    gate_probe_a, gate_probe_b, layer_sweep)
 from .sad_data import baseline_auroc, load_oversight
 from .taskloader import load_all
 from .tokenization import count as tok_count
@@ -110,7 +110,12 @@ def main() -> int:
     sweep_a = layer_sweep(A_sad.X, sad.labels, None)
     La = best_layer(sweep_a)
     probe_a = fit_at_layer(A_sad.X, sad.labels, La.layer)
-    gate_a = gate_probe_a(probe_a.cv_auroc, sad_base)
+    # Layer 0 is the embedding output -- nothing has been computed yet, so any
+    # separation there is token identity, not a representation. A high value is
+    # the signature of a corpus/vocabulary confound, which the length and
+    # special-character baselines cannot see.
+    l0 = next((r.auroc_mean for r in sweep_a if r.layer == 0), None)
+    gate_a = gate_probe_a(probe_a.cv_auroc, sad_base, embedding_auroc=l0)
     out["probe_A"] = {
         "n": len(sad), "source": sad.source, "best_layer": La.layer,
         "cv_auroc": probe_a.cv_auroc, "train_auroc": probe_a.train_auroc,
@@ -130,6 +135,11 @@ def main() -> int:
            for c in contexts]
     keys = [f"{c.task_id}|{c.arm_id}" for c in contexts]
     A = extract(model, tok, texts, idx, keys, "primary", a.batch_size)
+
+    np.savez_compressed(Path(a.out).parent / "activations_primary.npz",
+                        X=A.X.astype(np.float16),
+                        keys=np.array(keys), token_index=np.array(idx))
+    _log(f"  cached activations -> {Path(a.out).parent / 'activations_primary.npz'}")
 
     meta = [{"task_id": c.task_id, "arm_id": c.arm_id,
              "tokens": tok_count(c.text).n,
@@ -163,10 +173,18 @@ def main() -> int:
         Path(a.out).write_text(json.dumps(out, indent=2, default=float))
         return 0
 
-    # -- 6. score every context -------------------------------------------
-    _log("scoring all contexts with both probes")
+    # -- 6. score every context, OUT OF FOLD ------------------------------
+    # Every context is scored by a probe that never saw its task. Scoring the
+    # contexts Probe B was fit on measures training-set fit: Δ_base saturates
+    # and the F0 null test fails for reasons unrelated to any pipeline leak.
+    _log("scoring all contexts out-of-fold")
+    all_tasks = [m["task_id"] for m in meta]
+    sb, oof_info = fit_folds_and_score_all(A.X[sel], yb, gb, A.X, all_tasks,
+                                           probe_b.layer)
+    out["probe_B"]["out_of_fold"] = oof_info
+    _log(f"  out-of-fold: {oof_info['n_scored']}/{len(meta)} scored, "
+         f"fold auroc {oof_info['cv_auroc_mean']:.3f}")
     sa = probe_a.score(A.X[:, probe_a.layer, :])
-    sb = probe_b.score(A.X[:, probe_b.layer, :])
     tbl_b = ScoreTable([{**m, "score": float(v)} for m, v in zip(meta, sb)])
     tbl_a = ScoreTable([{**m, "score": float(v)} for m, v in zip(meta, sa)])
 
