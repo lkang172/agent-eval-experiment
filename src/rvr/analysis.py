@@ -86,15 +86,20 @@ class ScoreTable:
 # --------------------------------------------------------------------------
 
 
+# POLARITY. The eval-like arm is the POSITIVE class, matching how Probe B is
+# labelled (base = 1). auroc(neg=deploy, pos=base) then reads as "how separable
+# is the eval arm from the deploy arm, in the expected direction": 0.5 is no
+# separation, 1.0 is perfect. Passing base as the negative class instead returns
+# 1 - the intended value, which silently inverts every ranking.
 def _delta_base(tbl: ScoreTable, factor: str, key: str, tasks) -> float:
     base, dep = tbl.paired("base", f"{factor}_deploy", key, tasks)
-    return auroc(base, dep)
+    return auroc(dep, base)
 
 
 def _delta_ctrl(tbl: ScoreTable, factor: str, key: str, tasks) -> float:
     base, dep = tbl.paired("base", f"{factor}_deploy", key, tasks)
     base_c, ctl = tbl.paired("base", f"{factor}_ctrl", key, tasks)
-    return auroc(base, dep) - auroc(base_c, ctl)
+    return auroc(dep, base) - auroc(ctl, base_c)
 
 
 # --------------------------------------------------------------------------
@@ -176,8 +181,15 @@ def baseline_bounds(tbl: ScoreTable) -> dict[str, dict]:
     for f in FACTORS:
         row = {}
         for key, label in (("tokens", "B_len"), ("special_chars", "B_char")):
+            db = _delta_base(tbl, f, key, tbl.tasks())
             row[label] = {
-                "delta_base": _delta_base(tbl, f, key, tbl.tasks()),
+                # signed, eval-positive, same convention as the probe endpoints
+                "delta_base": db,
+                # direction-agnostic: a baseline that separates the arms is
+                # equally damaging whichever way it points. Deploy arms are
+                # longer than eval arms, so B_len's signed value sits near 0
+                # while its separability sits near 1.
+                "delta_base_separability": max(db, 1.0 - db),
                 "delta_ctrl": _delta_ctrl(tbl, f, key, tbl.tasks()),
             }
         out[f] = row

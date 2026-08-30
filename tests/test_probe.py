@@ -115,6 +115,116 @@ def test_gates():
     assert "STOP" in gate_probe_b(0.51)["consequence"]
 
 
+def _agentic_sim(n_tasks=30, hidden=512, effect=0.9, seed=5):
+    """Contexts shaped like the real arm set.
+
+    Each task has a large private offset (variants share content) and a small
+    shared eval/deploy direction. F0's two null arms are cosmetic copies of base.
+
+    `hidden` defaults to 512 against 180 training points, matching the real
+    run's overparameterised regime (180 points in 4096 dimensions) -- that ratio
+    is what lets an in-sample probe memorise its training arms perfectly.
+    """
+    rng = np.random.default_rng(seed)
+    shared = rng.normal(0, 1, hidden)
+    shared /= np.linalg.norm(shared)
+    # The cosmetic whitespace change is the SAME edit in every task, so it moves
+    # activations along a consistent direction rather than randomly. That is why
+    # the real run saw AUROC exactly 0.0 between the two null arms: an overfit
+    # probe reads any systematic departure from its memorised base point as
+    # "less eval-like", identically for all 30 tasks.
+    cosmetic = rng.normal(0, 1, hidden)
+    cosmetic /= np.linalg.norm(cosmetic)
+    arms = (["base"] + [f"{f}_deploy" for f in ("F1", "F3", "F4", "F6")]
+            + [f"{f}_ctrl" for f in ("F1", "F3", "F4", "F6")]
+            + ["F0_null_a", "F0_null_b", "stacked_deploy", "stacked_ctrl"])
+    X, tasks, arm_ids = [], [], []
+    for t in range(n_tasks):
+        task_id = f"task_{t:02d}"
+        private = rng.normal(0, 4.0, hidden)          # dominates; shared by variants
+        # base is a training point. F0_null_a is byte-identical to base in the
+        # real pipeline, so it is the SAME vector; F0_null_b differs only
+        # cosmetically. That asymmetry -- one null arm memorised, the other a
+        # perturbation of it -- is what makes an in-sample probe "separate" them.
+        base_vec = private + rng.normal(0, 1.0, hidden) + effect * shared
+        for arm in arms:
+            if arm == "base" or arm == "F0_null_a":
+                v = base_vec
+            elif arm == "F0_null_b":
+                v = base_vec + 0.6 * cosmetic + rng.normal(0, 0.05, hidden)
+            else:
+                v = private + rng.normal(0, 1.0, hidden)
+            X.append(v)
+            tasks.append(task_id)
+            arm_ids.append(arm)
+    X = np.stack(X)[:, None, :]                        # single layer axis
+    return X, tasks, arm_ids
+
+
+def test_oof_scoring_fixes_saturated_deltas_and_the_f0_null():
+    """Regression test for the two defects that invalidated the first run.
+
+    In-sample: Probe B is fit on base+deploy then scores those same contexts, so
+    Δ_base saturates and F0 fails for reasons unrelated to any leak.
+    Out-of-fold: every context is scored by a probe that never saw its task.
+    """
+    from rvr.analysis import ScoreTable, _delta_base, f0_null_check
+    from rvr.probe import fit_at_layer, fit_folds_and_score_all
+
+    X, tasks, arms = _agentic_sim()
+    train_arms = {"base", "F1_deploy", "F3_deploy", "F4_deploy", "F6_deploy",
+                  "stacked_deploy"}
+    sel = [i for i, a in enumerate(arms) if a in train_arms]
+    y = [1 if arms[i] == "base" else 0 for i in sel]
+    g = [tasks[i] for i in sel]
+
+    def table(scores):
+        return ScoreTable([{"task_id": tasks[i], "arm_id": arms[i],
+                            "score": float(scores[i]), "tokens": 0,
+                            "special_chars": 0} for i in range(len(arms))])
+
+    # --- in-sample (the bug) ---
+    p = fit_at_layer(X[sel], y, layer=0, groups=g)
+    t_in = table(p.score(X[:, 0, :]))
+    d_in = _delta_base(t_in, "F1", "score", t_in.tasks())
+    f0_in = f0_null_check(t_in, margin=0.1)
+
+    # --- out-of-fold (the fix) ---
+    oof, info = fit_folds_and_score_all(X[sel], y, g, X, tasks, layer=0)
+    assert info["n_unscored"] == 0, info
+    t_oof = table(oof)
+    d_oof = _delta_base(t_oof, "F1", "score", t_oof.tasks())
+    f0_oof = f0_null_check(t_oof, margin=0.1)
+
+    # In-sample saturates; out-of-fold does not.
+    assert d_in > 0.97, d_in
+    assert d_oof < d_in - 0.05, (d_in, d_oof)
+    # Under out-of-fold scoring the two cosmetic arms do not separate, which is
+    # what the F0 null control is supposed to show.
+    assert f0_oof["passes"], f0_oof
+    # NOTE: the real run's in-sample F0 AUROC of exactly 0.0 is not asserted
+    # here. Reproducing it needs the whitespace-induced activation shift to be
+    # non-orthogonal to the probe direction, which is a property of real
+    # activation geometry, not of any defensible synthetic model. The claim this
+    # test pins is the saturation and its fix; whether in-sample F0 also fails is
+    # data-dependent.
+    _ = f0_in
+
+
+def test_delta_base_polarity_is_eval_positive():
+    """Δ_base must exceed 0.5 when the eval arm scores higher, not fall below it."""
+    from rvr.analysis import ScoreTable, _delta_base
+
+    rows = []
+    for t in range(20):
+        rows.append({"task_id": f"t{t}", "arm_id": "base", "score": 1.0,
+                     "tokens": 0, "special_chars": 0})
+        rows.append({"task_id": f"t{t}", "arm_id": "F1_deploy", "score": 0.0,
+                     "tokens": 0, "special_chars": 0})
+    tbl = ScoreTable(rows)
+    assert _delta_base(tbl, "F1", "score", tbl.tasks()) == 1.0
+
+
 if __name__ == "__main__":
     import traceback
 
